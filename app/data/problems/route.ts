@@ -7,8 +7,7 @@ const PRISMA: PrismaClient = new PrismaClient();
 export async function GET(request: Request) {
     // Get all problems from database
     let problems = await PRISMA.problem.findMany();
-    // return NextResponse.json(problems);
-    return NextResponse.json({})
+    return NextResponse.json(problems);
 }
 
 export async function POST(request: Request) {
