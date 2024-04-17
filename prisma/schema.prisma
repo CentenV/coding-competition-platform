@@ -22,3 +22,10 @@ model team {
   points       BigInt
   competitor   competitor[]
 }
+
+model problem {
+  id          Int    @id @default(autoincrement()) @ignore
+  name        String
+  description String
+  points      Int
+}
