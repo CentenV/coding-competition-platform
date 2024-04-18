@@ -18,7 +18,6 @@ export default function CreateNewProblem() {
             method: "POST",
             body: data
         });
-             
     }
 
     return (
