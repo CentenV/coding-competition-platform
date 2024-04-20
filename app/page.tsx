@@ -12,6 +12,9 @@ export default function Home() {
   // test();
 
   return (
-    <div>Coding Competition Platform</div>
+    <div className="p-8">
+      <div>Coding Competition Platform</div>
+      <div>test</div>
+    </div>
   );
 }
