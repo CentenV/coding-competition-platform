@@ -1,19 +1,24 @@
-// Problem List Component //
+// PROBLEM LIST COMPONENT //
+// Component that displays all the problems in a table list
+
 "use client"
+import { foreground } from "@/app/_components/globalstyle";
 import { useEffect, useState } from "react";
 
 const REFRESH_INTERVAL: number = 1000;
+const COLUMNS: string[] = ["ID", "Problem Name", "Problem Description", "Points"];
 
 // Component
 export default function ProblemList() {
     // Constantly update list of problems whenever there is a change
-    const [problems, updateProblems] = useState<Object>({});
+    const [problems, updateProblems] = useState<IProblem | null>(null);
 
     // Fetch and check if data changed in a certain interval
     useEffect(() => {
         const t = setInterval(async () => {
-            const fetch: Object = await getProblems();
-            if (fetch != problems) {
+            const fetch: IProblem = await getProblems();
+            if (fetch !== problems) {
+                console.log(fetch);
                 updateProblems(fetch);
             }
         }, REFRESH_INTERVAL);
@@ -22,27 +27,53 @@ export default function ProblemList() {
     }, [problems]);
 
     return (
-        <div>
-            {/* Print out all rows of problems */}
-            {Object.keys(problems).length === 0 ? <div>Loading</div> : Object.entries(problems).map(([key, obj]) => {
-                return (
-                    <div key={key}>
-                        <span>{obj.id}</span>
-                        <span>{obj.name}</span>
-                        <span>{obj.description}</span>
-                    </div>
-                );
-            })}
+        // Print out all rows of problems
+        <div className={`${foreground}`}>
+            {problems === null ? <div>Loading</div> : 
+                (
+                    <table className={`w-full`}>
+                        <thead>
+                            <tr>
+                                {COLUMNS.map((columnName: string) => {
+                                    return (
+                                        <th key={`${columnName}_table_header`}>{columnName}</th>
+                                    );
+                                })}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.entries(problems).map(([key, obj]) => {
+                                return (
+                                    <tr key={`${key}_entry`}>
+                                        <td key={`${key}_id`}>{obj.id}</td>
+                                        <td key={`${key}_name`}>{obj.name}</td>
+                                        <td key={`${key}_description`}>{obj.description}</td>
+                                        <td key={`${key}_points`}>{obj.points}</td>
+                                    </tr>
+                                );
+                            })}  
+                        </tbody>
+                    </table>
+                )
+            }
         </div>
     );
 }
 
 
 // Get problems
-async function getProblems() {
+async function getProblems(): Promise<IProblem> {
     // Query getting all problems from db
-    const request = await fetch("http://localhost:3000/data/problems", { cache: "no-store" });
+    const request = await fetch("http://localhost:3000/data/problems", { method: "GET", cache: "no-store" });
     const problems = await request.json();
 
-    return problems;
+    return problems as IProblem;
+}
+
+// Problems structure
+interface IProblem {
+    id: number,
+    name: string,
+    description: string,
+    // points: number
 }

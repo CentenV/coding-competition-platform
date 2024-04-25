@@ -1,9 +1,9 @@
 // HEADER COMPONENT //
 // The header to every page within the dashboard page
-import { background, foreground, primaryTextColor } from "./globalstyle";
+import { foreground } from "./globalstyle";
 
 export default function Header({ title }: { title: string }) {
     return (
-        <div className={`${foreground} ${primaryTextColor} font-bold text-4xl`}>{title}</div>
+        <div className={`${foreground} font-bold text-4xl mb-5`}>{title}</div>
     );
 }
