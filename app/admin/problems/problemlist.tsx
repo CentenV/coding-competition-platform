@@ -18,7 +18,6 @@ export default function ProblemList() {
         const t = setInterval(async () => {
             const fetch: IProblem = await getProblems();
             if (fetch !== problems) {
-                console.log(fetch);
                 updateProblems(fetch);
             }
         }, REFRESH_INTERVAL);
@@ -33,7 +32,7 @@ export default function ProblemList() {
                 (
                     <table className={`w-full`}>
                         <thead>
-                            <tr>
+                            <tr className={`bg-neutral-400`}>
                                 {COLUMNS.map((columnName: string) => {
                                     return (
                                         <th key={`${columnName}_table_header`}>{columnName}</th>
@@ -44,7 +43,7 @@ export default function ProblemList() {
                         <tbody>
                             {Object.entries(problems).map(([key, obj]) => {
                                 return (
-                                    <tr key={`${key}_entry`}>
+                                    <tr key={`${key}_entry`} className={`bg-zinc-300`}>
                                         <td key={`${key}_id`}>{obj.id}</td>
                                         <td key={`${key}_name`}>{obj.name}</td>
                                         <td key={`${key}_description`}>{obj.description}</td>

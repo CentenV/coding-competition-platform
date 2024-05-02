@@ -1,12 +1,21 @@
-// Create Problem Component  //
+// CREATE PROBLEM PAGE //
 "use client";
+import Header from "@/app/_components/header";
+import ManageProblem from "@/app/_components/problemmanagement";
 
 export default function CreateNewProblem() {
+    const PAGE_TITLE = "Create New Problem";
+
     async function createProblem(newProblemData: FormData) {
         // Get data from form and format it
         const pName = String(newProblemData.get("problem-name"));
         const pDesc = String(newProblemData.get("problem-desc"));
         const pPts = Number(newProblemData.get("problem-pts"));
+        console.log(pName);
+        console.log(pDesc);
+        console.log(pPts);
+        // Validate input
+
         const data = JSON.stringify({
             name: pName,
             description: pDesc,
@@ -21,11 +30,10 @@ export default function CreateNewProblem() {
     }
 
     return (
-        <form action={createProblem} >
-            <input name="problem-name" />
-            <input name="problem-desc" />
-            <input name="problem-pts" type="number" />
-            <input type="submit" />
-        </form>
+        <div>
+            <Header title={PAGE_TITLE} />
+            <ManageProblem action={createProblem} name="" description="" points={10} submitButtonText="Create" />
+        </div>
+        
     );
 }
