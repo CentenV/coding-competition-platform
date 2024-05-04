@@ -1,11 +1,14 @@
 // MANAGE PROBLEM COMPONENT //
 // provides the template that is used to create/edit problems
-
-import { foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
+import { button, cancelButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import Link from "next/link";
-import { Router } from "next/router";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
 
-export default function ManageProblem({ action, name, description, points, submitButtonText }: { action: (form: FormData) => void, name: string, description: string, points: number, submitButtonText: string }) {
+export default function ManageProblem({ action, name, description, points, submitButtonText }: { action: (form: FormData) => void, name: string, description: string, points: number, submitButtonText: string}) {
+    // Next.JS Router
+    const ROUTER: AppRouterInstance = useRouter();
+
     return (
         <form action={action} className={`${foreground} flex flex-col`}>
             <label className={`${inputSectionLabel}`} >Problem Details</label>
@@ -15,9 +18,9 @@ export default function ManageProblem({ action, name, description, points, submi
             <textarea name="problem-desc" rows={2} className={`${inputBox} resize-none`} defaultValue={description} />
             <label className={`${inputLabel}`}>Points Value</label>
             <input name="problem-pts" type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={points} />
-            <div>
-                <input type="submit" className={`${primaryButton}`} defaultValue={submitButtonText} />
-                {/* <button type="button" className={`${primaryButton}`} onClick={() => Router.back()}>Cancel</button> */}
+            <div className={`flex flex-row gap-4 mt-8 w-full`}>
+                <input type="submit" className={`${button} ${primaryButton} uppercase w-full`} value={submitButtonText} />
+                <button className={`${button} ${cancelButton} uppercase w-full`} onClick={() => ROUTER.replace("/admin/problems")}>Cancel</button>
             </div>
         </form>
     );

@@ -1,12 +1,7 @@
 // ADMINISTRATIVE PAGE //
 // Used to manage all aspect of the system
 "use client";
-
-import { useRef } from "react";
 import Header from "../_components/header";
-import CreateNewProblem from "./problems/create/createproblem";
-import ProblemList from "./problems/problemlist";
-import { background, foreground } from "../_components/globalstyle";
 
 // Page Component
 export default function AdministrativePage() {

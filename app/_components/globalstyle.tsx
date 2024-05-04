@@ -12,7 +12,9 @@ export const foreground: string = "bg-neutral-200 border-2 border-neutral-300 p-
 export const primaryTextColor: string = "text-black";
 
 // Buttons
-export const primaryButton: string = "rounded-md p-3 border-2 border-neutral-400 mt-10 ";
+export const button: string = "text-base rounded-md px-4 py-2 border-2 hover:cursor-pointer transition-colors";
+export const primaryButton: string = " border-neutral-400 hover:bg-black hover:text-white";
+export const cancelButton: string = " border-red-500 hover:bg-red-500 hover:text-white";
 
 // Input Boxes
 export const inputSectionLabel: string = "font-bold text-lg";
