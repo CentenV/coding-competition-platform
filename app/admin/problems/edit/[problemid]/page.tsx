@@ -29,9 +29,6 @@ export default function EditProblem({ params }: { params: { problemid: string } 
 
     // Function to modify problem
     async function modifyProblem(newProblemData: FormData) {
-        console.log(newProblemData);
-        console.log("modify problem called");
-
         // Get data from form and format it
         const pName = String(newProblemData.get("problem-name"));
         const pDesc = String(newProblemData.get("problem-desc"));
