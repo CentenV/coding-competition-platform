@@ -29,7 +29,7 @@ export default function CreateNewProblem() {
         });
 
         // Push to database
-        const request = await fetch("http://localhost:3000/data/problems", {
+        const request = await fetch("/data/problems", {
             method: "POST",
             body: data
         });

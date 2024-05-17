@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 const PRISMA: PrismaClient = new PrismaClient();
 
 // Get all problems
-export async function GET(request: Request) {
+export async function GET() {
     // Get all problems from database
     let problems = await PRISMA.problem.findMany();
     return NextResponse.json(problems);

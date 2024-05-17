@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 const PRISMA: PrismaClient = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET({ params }: { params: { id: string } }) {
     // Specific Problem ID
     const problemId: number = Number(params.id);
 

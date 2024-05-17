@@ -70,7 +70,7 @@ export default function ProblemList() {
 // Get problems helper function
 async function getProblems(): Promise<IProblem> {
     // Query getting all problems from db
-    const request = await fetch("http://localhost:3000/data/problems", { method: "GET", cache: "no-cache" });
+    const request = await fetch("/data/problems", { method: "GET", cache: "no-cache" });
     const problems = await request.json();
 
     return problems as IProblem;
