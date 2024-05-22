@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 
 export default function Home() {
   return (
-    <div className="p-8">
+    // <div className="p-8">
+    <div>
       <SandboxPage />
     </div>
   );

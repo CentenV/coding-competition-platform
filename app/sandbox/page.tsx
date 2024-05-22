@@ -1,31 +1,31 @@
 // CODING PLAYGROUND/SANDBOX PAGE //
 // the page used for the competitor (client) to test code
 "use client";
-import { ChangeEvent, SyntheticEvent, useReducer, useState } from "react";
-import { button } from "../_components/globalstyle";
+import { useRef, useState } from "react";
+import { button, foregroundAlternate } from "../_components/globalstyle";
 import LoadingUI from "../_components/loadingui";
-import { ISubmissionResponse } from "../_components/interfaces";
+import { Editor, Monaco } from "@monaco-editor/react";
+import Header from "../_components/header";
 
 // Page component
 export default function SandboxPage() {
     // Code field input
-    const [code, updateCode] = useState<string>("");
+    // const [code, updateCode] = useState<string>("");
+    const codeEditor = useRef<any>(null);
 
     // Output result
     const [output, updateOutput] = useState<string | null>(null);
     const [waiting, updateWaiting] = useState<boolean>(false);
 
-    // Run
-    async function runCode(event: SyntheticEvent<HTMLFormElement>) {
-        event.preventDefault();
-
+    // Run code
+    async function runCode() {
         // Clear currently displayed output
         updateOutput(null);
         updateWaiting(true);
 
         // Format to for Rest API
         const formattedData = JSON.stringify({
-            code: code
+            code: getCode()
         });
         
         // Submit code to server to handle
@@ -36,17 +36,29 @@ export default function SandboxPage() {
         updateOutput(executedCodeOutput);
     }
 
+    // Bind the editor to React ref
+    function codeEditorLoaded(editor: any, monaco: Monaco) {
+        codeEditor.current = editor;
+    }
+
+    // Getting value from editor
+    function getCode(): string {
+        return codeEditor?.current?.getValue();
+    }
+    
+
     return (
         <>
-            <form onSubmit={runCode}>
-                <textarea name="code" className={`border-2 border-black w-full p-2`} rows={10} onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                    event.preventDefault();
-                    updateCode(event.target.value);
-                }} />
-                <input type="submit" className={`${button}`} value={"Run Code"} />
-            </form>
-            {(output != null) ? <p className={"whitespace-pre-line"}>{output}</p> : <></>}
-            {(waiting) ? <LoadingUI/> : <></>}
+            <Header title="Sandbox" />
+            <div className={`h-full w-full`}>
+                <div className={`${foregroundAlternate}`}>
+                    <Editor height={"80vh"} width={"auto"} onMount={codeEditorLoaded} language="python" />
+                </div>
+                <button className={`${button}`} onClick={runCode}>Run Code</button>
+                {(output != null) ? <p className={"whitespace-pre-line"}>{output}</p> : <></>}
+                {(waiting) ? <LoadingUI /> : <></>}
+            </div>
         </>
+        
     );
 }
