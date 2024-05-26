@@ -1,7 +1,6 @@
 // MANAGE PROBLEM COMPONENT //
 // provides the template that is used to create/edit problems
 import { button, cancelButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
-import Link from "next/link";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +9,7 @@ export default function ManageProblem({ action, name, description, points, submi
     const ROUTER: AppRouterInstance = useRouter();
 
     return (
-        <form action={action} className={`${foreground} flex flex-col`}>
+        <form action={action} className={`flex flex-col`}>
             <label className={`${inputSectionLabel}`} >Problem Details</label>
             <label className={`${inputLabel}`}>Name</label>
             <input name="problem-name" type="text" className={`${inputBox}`} defaultValue={name} />

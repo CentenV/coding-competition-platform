@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { background, foreground, primaryTextColor } from "./_components/globalstyle";
 import "./globals.css";
 import React from "react";
+import UniversalLayout from "./_components/universal_layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.className} ${background} ${primaryTextColor} p-4 h-screen flex flex-row`}>
-        <nav className={"order-first basis-64 flex flex-col flex-none"}>
-          <Link href={"/"} className={`${foreground}`}><Image className={`invert-0 dark:invert`} src={"/default/default_logo.png"} alt="Logo" width={873} height={476} priority /></Link>
-        </nav>
-        <div className={"order-last basis-full ml-4 flex-auto"}>
-          {children} 
-        </div>
+        {children}
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 // ADMINISTRATIVE PAGE //
 // Used to manage all aspect of the system
 "use client";
-import Header from "../_components/header";
+import Header from "../../_components/header";
 
 // Page Component
 export default function AdministrativePage() {

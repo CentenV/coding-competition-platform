@@ -1,9 +1,10 @@
 // EDIT PROBLEM PAGE //
 // dynamic route page that is used to manage a problem by dynamically passing in the problem id when passing it in the url
 "use client";
+import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
 import { IProblem } from "@/app/_components/interfaces";
-import LoadingUI from "@/app/_components/loadingui";
+import LoadingUI from "@/app/_components/loading_ui";
 import ManageProblem from "@/app/_components/problemmanagement";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
@@ -56,9 +57,11 @@ export default function EditProblem({ params }: { params: { problemid: string } 
     return (
         <div>
             <Header title={PAGE_TITLE} />
-                {(Object.keys(problem).length === 0) ? <LoadingUI /> :
+            <div className={`${foreground}`}>
+                {(Object.keys(problem).length === 0) ? <LoadingUI size={40} /> :
                     <ManageProblem name={problem.name} description={problem.description} points={problem.points} action={modifyProblem} submitButtonText={"Update"} />
                 }
+            </div>
         </div>
     )
 }
@@ -67,7 +70,7 @@ export default function EditProblem({ params }: { params: { problemid: string } 
 // Get problem helper function
 async function getProblem(id: number): Promise<IProblem> {
     // Query getting all problems from db
-    const request = await fetch(`http://localhost:3000/data/problems/${id}`, { method: "GET", cache: "no-cache" });
+    const request = await fetch(`/data/problems/${id}`, { method: "GET", cache: "no-cache" });
     const problems = await request.json();
 
     return problems as IProblem;

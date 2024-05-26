@@ -2,10 +2,10 @@
 // the page used for the competitor (client) to test code
 "use client";
 import { useRef, useState } from "react";
-import { button, foregroundAlternate } from "../_components/globalstyle";
-import LoadingUI from "../_components/loadingui";
+import { button, foregroundAlternate } from "@/app/_components/globalstyle";
+import LoadingUI from "@/app/_components/loading_ui";
 import { Editor, Monaco } from "@monaco-editor/react";
-import Header from "../_components/header";
+import Header from "@/app/_components/header";
 
 // Page component
 export default function SandboxPage() {
