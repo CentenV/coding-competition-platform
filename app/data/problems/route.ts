@@ -8,7 +8,11 @@ const PRISMA: PrismaClient = new PrismaClient();
 // Get all problems
 export async function GET() {
     // Get all problems from database
-    let problems = await PRISMA.problem.findMany();
+    let problems = await PRISMA.problem.findMany({
+        orderBy: {
+            id: "asc"
+        }
+    });
     return NextResponse.json(problems);
 }
 

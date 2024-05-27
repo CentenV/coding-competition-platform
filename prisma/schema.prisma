@@ -1,33 +1,31 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider     = "sqlite"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model competitor {
-  id        Int    @id() @default(autoincrement())
-  username  String @unique()
+  id        Int    @id(map: "pk_competitor")
+  username  String @unique(map: "unique_username") @db.VarChar(40)
   full_name String
   teamid    Int?
+  team      team?  @relation(fields: [teamid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_teamid")
 }
 
 model problem {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @unique @default(autoincrement())
   name        String
   description String
   points      Int
 }
 
 model team {
-  id           Int     @id() @default(autoincrement())
-  name         String  @unique()
-  team_members String?
+  id           Int          @id(map: "pk_team")
+  name         String       @unique(map: "unique_team_name")
+  team_members String[]     @db.VarChar(40)
   points       BigInt
+  competitor   competitor[]
 }
