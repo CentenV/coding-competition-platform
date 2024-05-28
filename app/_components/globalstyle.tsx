@@ -14,13 +14,14 @@ export const primaryTextColor: string = "text-black";
 
 // Buttons
 export const button: string = "text-base rounded-md px-4 py-2 border-2 hover:cursor-pointer transition-colors";
-export const primaryButton: string = "border-neutral-400 hover:bg-black hover:text-white";
-export const cancelButton: string = "border-red-500 hover:bg-red-500 hover:text-white";
+export const primaryButton: string = "border-black hover:bg-black hover:text-white";
+export const cancelButton: string = "border-neutral-400 hover:bg-neutral-400 hover:text-white";
+export const deleteButton: string = "border-red-500 hover:bg-red-500 hover:text-white";
 export const menuButton: string = `${foreground}`;
 
 // Input Boxes
 export const inputSectionLabel: string = "font-bold text-lg";
-export const inputLabel: string = "mt-2 text-base";
+export const inputLabel: string = "mt-2 mb-1 text-base";
 export const inputBox: string = "text-sm p-3 rounded-md";
 
 

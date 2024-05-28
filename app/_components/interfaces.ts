@@ -6,7 +6,8 @@ export interface IProblem {
     id: number,
     name: string,
     description: string,
-    points: number
+    points: number,
+    expected_output: string
 }
 
 

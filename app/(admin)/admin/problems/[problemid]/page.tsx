@@ -5,7 +5,7 @@ import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
 import { IProblem } from "@/app/_components/interfaces";
 import LoadingUI from "@/app/_components/loading_ui";
-import ManageProblem from "@/app/_components/problemmanagement";
+import ManageProblem, { Action } from "@/app/_components/problem_management";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,38 +28,12 @@ export default function EditProblem({ params }: { params: { problemid: string } 
         load();
     }, []);
 
-    // Function to modify problem
-    async function modifyProblem(newProblemData: FormData) {
-        // Get data from form and format it
-        const pName = String(newProblemData.get("problem-name"));
-        const pDesc = String(newProblemData.get("problem-desc"));
-        const pPts = Number(newProblemData.get("problem-pts"));
-
-        // Validate input
-
-        // Prepare data for REST
-        const data = JSON.stringify({
-            name: pName,
-            description: pDesc,
-            points: pPts
-        });
-
-        // Push to database
-        const request = await fetch(`http://localhost:3000/data/problems/${problem.id}`, {
-            method: "PATCH",
-            body: data
-        });
-
-        // Redirect back to problem list if all successful
-        ROUTER.replace("/admin/problems");
-    }
-
     return (
         <div>
             <Header title={PAGE_TITLE} />
             <div className={`${foreground}`}>
                 {(Object.keys(problem).length === 0) ? <LoadingUI size={40} /> :
-                    <ManageProblem name={problem.name} description={problem.description} points={problem.points} action={modifyProblem} submitButtonText={"Update"} />
+                    <ManageProblem actionType={Action.UPDATE} problemData={problem} submitButtonText={"Update"} deletable={true} />
                 }
             </div>
         </div>

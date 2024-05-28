@@ -1,5 +1,6 @@
 // ALL PROBLEMS API ROUTE //
 // API route for fetching all problems
+import { IProblem } from "@/app/_components/interfaces";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -19,7 +20,7 @@ export async function GET() {
 // Create new problem
 export async function POST(request: Request) {
     // Get POST request body
-    let newProblem = await request.json();
+    let newProblem: IProblem = await request.json();
 
     // Push to database
     const problem = await PRISMA.problem.create(
@@ -27,7 +28,8 @@ export async function POST(request: Request) {
             data: {
                 name: newProblem.name,
                 description: newProblem.description,
-                points: newProblem.points
+                points: newProblem.points,
+                expected_output: newProblem.expected_output
             }
         }
     );
