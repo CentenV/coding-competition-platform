@@ -10,7 +10,8 @@ export default function UniversalLayout({ children, homeURL, options }: { childr
     return (
         <>
             <nav className={"order-first basis-64 flex flex-col flex-none flex gap-y-3"}>
-                <Link href={homeURL} className={`${foreground}`}><Image className={`invert-0 dark:invert`} src={"/default/default_logo.png"} alt="Logo" width={873} height={476} priority /></Link>
+                {/* ` dark:invert` */}
+                <Link href={homeURL} className={`${foreground}`}><Image className={`invert-0`} src={"/default/default_logo.png"} alt="Logo" width={873} height={476} priority /></Link>
                 {(options != undefined) ? options.map((data: IMenuOption, index: number) => {
                     return <UniversalMenuOption optionData={data} key={index} />;
                 }) : null}

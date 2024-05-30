@@ -31,7 +31,7 @@ export default function ProblemsPage() {
         }, REFRESH_INTERVAL);
 
         return () => clearInterval(fetchRefreshInterval);
-    }, [problems]);
+    }, []);
 
     return (
         <div>
