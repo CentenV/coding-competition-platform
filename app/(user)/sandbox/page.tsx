@@ -56,7 +56,7 @@ export default function SandboxPage() {
                 </div>
                 <button className={`${button}`} onClick={runCode}>Run Code</button>
                 {(output != null) ? <p className={"whitespace-pre-line"}>{output}</p> : <></>}
-                {(waiting) ? <LoadingUI /> : <></>}
+                {(waiting) ? <LoadingUI size={40} /> : <></>}
             </div>
         </>
         

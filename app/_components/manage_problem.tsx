@@ -6,50 +6,51 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useRouter } from "next/navigation";
 import { IProblem } from "./interfaces";
 import React from "react";
+import axios from "axios";
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
 
 export enum Action {
     CREATE,
     UPDATE
 }
 
-export default function ManageProblem({ actionType, problemData, submitButtonText, deletable }: { actionType: Action, problemData: IProblem, submitButtonText: string, deletable?: boolean | undefined }) {
+export default function ManageProblem({ problemData, problemId, actionType, submitButtonText, deletable }: { problemData: IProblem, problemId?: number | undefined, actionType: Action, submitButtonText: string, deletable?: boolean | undefined }) {
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
 
+    // Mutation type for all Action types
+    const createMutation = useMutation({
+        mutationKey: [`create_${Date.now()}`],
+        mutationFn: async (newProblemData: IProblem) => { await axios.post("/data/problems", newProblemData); }     // Call Rest API post to create new problem
+    });
+    const updateMutation = useMutation({
+        mutationKey: [`update_${Date.now()}`],
+        mutationFn: async (updatedProblemData: IProblem) => { await axios.patch(`/data/problems/${problemData.id}`, updatedProblemData); }      // Call Rest API patch to update problem
+    }); 
+    const deleteMutation = useMutation({
+        mutationKey: [`delete_${problemId}_${Date.now()}`], 
+        mutationFn: async () => { await axios.delete(`/data/problems/${problemData.id}`); }
+    });
+
     // Action method to create/update probems from the form
-    let action: (form: FormData) => void = async (problemFormData: FormData) => {
-        // Get data from form and format it
-        const pName = String(problemFormData.get("problem-name"));
-        const pDesc = String(problemFormData.get("problem-desc"));
-        const pPts = Number(problemFormData.get("problem-pts"));
-        const pExpectedOutput = String(problemFormData.get("problem-expected-output"))
+    async function action(problemFormData: FormData) {
+        // Get data from form and format it, preparing data for mutation
+        const data: IProblem = {
+            name: String(problemFormData.get("problem-name")),
+            description: String(problemFormData.get("problem-desc")),
+            points: Number(problemFormData.get("problem-pts")),
+            expected_output: String(problemFormData.get("problem-expected-output"))
+        };
 
-        // Validate input
-
-        // Prepare data for REST
-        const data = JSON.stringify({
-            name: pName,
-            description: pDesc,
-            points: pPts,
-            expected_output: pExpectedOutput
-        });
-
-        // CRUD Operation
-        let request = null;
+        // Call respective mutation
         switch (actionType) {
             case Action.CREATE:
                 // Push new problem to database
-                request = await fetch("/data/problems", {
-                    method: "POST",
-                    body: data
-                });
+                createMutation.mutate(data); 
                 break;
             case Action.UPDATE:
                 // Push updates to problems to database
-                request = await fetch(`/data/problems/${problemData.id}`, {
-                    method: "PATCH",
-                    body: data
-                });
+                updateMutation.mutate(data);
                 break;
             default:
                 throw "Invalid action type";
@@ -63,9 +64,13 @@ export default function ManageProblem({ actionType, problemData, submitButtonTex
     async function deleteProblem(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         
-        const request = await fetch(`/data/problems/${problemData.id}`, {
-            method: "DELETE"
-        })
+        // Call mutation
+        if (deletable) {
+            deleteMutation.mutate();
+        }
+        else {
+            throw "Problem page marked deletable but deleteMutation was called";
+        }
 
         // Redirect back to problem list if all successful
         ROUTER.replace("/admin/problems");

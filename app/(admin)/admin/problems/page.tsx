@@ -8,38 +8,39 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import React, { useEffect, useState } from "react";
 import { IProblem } from "@/app/_components/interfaces";
 import LoadingUI from "@/app/_components/loading_ui";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const REFRESH_INTERVAL: number = 1000;
 const COLUMNS: string[] = ["ID", "Problem Name", "Problem Description", "Points"];
 
 // Page Component
 export default function ProblemsPage() {
-    let PAGE_TITLE: string = "Problems";
-
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
-    // Collection of problems
-    const [problems, updateProblems] = useState<IProblem | null>(null);
 
-    // Fetch and check if data changed in a certain interval
-    useEffect(() => {
-        const fetchRefreshInterval = setInterval(async () => {
-            const fetch: IProblem = await getProblems();
-            if (fetch !== problems) {
-                updateProblems(fetch);
-            }
-        }, REFRESH_INTERVAL);
-
-        return () => clearInterval(fetchRefreshInterval);
-    }, []);
+    // Fetch problems constantly polling to check if data changed in a certain interval
+    const { data, error, isError, isLoading, isSuccess } = useQuery({
+        queryKey: ["problems"],
+        queryFn: async () => {
+            // Query getting all problems from db
+            const { data } = await axios.get("/data/problems");
+            return data as IProblem[];
+        },
+        refetchInterval: REFRESH_INTERVAL,
+        refetchIntervalInBackground: false,
+        refetchOnWindowFocus: true,
+    });
 
     return (
         <div>
-            <Header title={PAGE_TITLE} />
+            <Header title={"Problems"} />
             <div className={`${foreground}`}>
                 {/* // Print out all rows of problems */}
                 <div>
-                    {problems == null ? <LoadingUI size={40} /> :
+                    {isLoading && <LoadingUI size={40} />}
+                    {isError && (<div>Error occurred: {error.message}</div>)}
+                    {(isSuccess && data !== undefined) ? 
                         (
                             <>
                                 <div className={`mb-4`}>
@@ -63,7 +64,7 @@ export default function ProblemsPage() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {Object.entries(problems).map(([key, obj]) => {
+                                            {Object.entries(data).map(([key, obj]) => {
                                                 return (
                                                     <tr className={`bg-zinc-200 border-t-2 border-b-2 border-white hover:bg-stone-300 hover:cursor-pointer`} key={`${key}_entry`} onClick={() => ROUTER.push(`/admin/problems/${obj.id}`)}>
                                                         <td className={`px-3 py-2 select-none`} key={`${key}_id`}>{obj.id}</td>
@@ -77,19 +78,10 @@ export default function ProblemsPage() {
                                     </table>
                                 </div>
                             </>
-                        )
+                        ) : null
                     }
                 </div>
             </div>
         </div>
     )
-}
-
-// Get problems helper function
-async function getProblems(): Promise<IProblem> {
-    // Query getting all problems from db
-    const request = await fetch("/data/problems", { method: "GET", cache: "no-cache" });
-    const problems = await request.json();
-
-    return problems as IProblem;
 }

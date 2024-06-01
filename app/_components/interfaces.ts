@@ -3,7 +3,7 @@
 
 // Problems structure
 export interface IProblem {
-    id: number,
+    id?: number,
     name: string,
     description: string,
     points: number,

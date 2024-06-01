@@ -4,7 +4,7 @@
 import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
 import { IProblem } from "@/app/_components/interfaces";
-import ManageProblem, { Action } from "@/app/_components/problem_management";
+import ManageProblem, { Action } from "@/app/_components/manage_problem";
 
 // Page Component
 export default function CreateNewProblem() {
