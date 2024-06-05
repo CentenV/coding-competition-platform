@@ -12,12 +12,10 @@ import axios from "axios";
 // Page component
 export default function SandboxPage() {
     // Code field input
-    // const [code, updateCode] = useState<string>("");
     const codeEditor = useRef<any>(null);
-
+    
     // Output result
     const [output, updateOutput] = useState<string | null>(null);
-    const [waiting, updateWaiting] = useState<boolean>(false);
 
     // Mutation to push code to the backend to run
     const { data, mutate, isSuccess, isError, error, isPending } = useMutation({
@@ -35,7 +33,7 @@ export default function SandboxPage() {
     });
 
     // Bind the editor to React ref
-    function codeEditorLoaded(editor: any, monaco: Monaco) {
+    function codeEditorLoaded(editor: any) {
         codeEditor.current = editor;
     }
 

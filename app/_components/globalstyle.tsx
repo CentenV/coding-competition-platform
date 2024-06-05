@@ -12,6 +12,8 @@ export const card: string = "";
 // Text
 // export const primaryTextColor: string = "text-black dark:text-white";
 export const primaryTextColor: string = "text-black";
+export const header: string = "font-bold text-2xl mt-1";
+export const subHeader: string = "pb-2 text-base text-gray-600";
 
 // Buttons
 export const button: string = "text-base rounded-md px-4 py-2 border-2 hover:cursor-pointer transition-colors";
@@ -25,6 +27,8 @@ export const inputSectionLabel: string = "font-bold text-lg";
 export const inputLabel: string = "mt-2 mb-1 text-base";
 export const inputBox: string = "text-sm p-3 rounded-md";
 
+// Components
+export const divider: string = "border-b-2 border-gray-500";
 
 // Icons
 export function HomeIcon() {
