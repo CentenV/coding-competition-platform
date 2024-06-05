@@ -21,7 +21,7 @@ export default function ProblemsPage() {
 
     // Fetch problems constantly polling to check if data changed in a certain interval
     const { data, error, isError, isLoading, isSuccess } = useQuery({
-        queryKey: ["problems"],
+        queryKey: ["admin_problems"],
         queryFn: async () => {
             // Query getting all problems from db
             const { data } = await axios.get("/data/problems");

@@ -5,38 +5,44 @@ import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
 import { IProblem } from "@/app/_components/interfaces";
 import LoadingUI from "@/app/_components/loading_ui";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useEffect, useState } from "react";
 
-// Problem list component on for the user-end
-export default function UserProblemList() {
-    // Problem list reactive
-    const [problems, updateProblems] = useState<IProblem[] | null>(null);
+const REFRESH_INTERVAL: number = 2000;
 
+// Problem list component
+export default function UserProblemList() {
     // Fetching all required data
-    useEffect(() => {
-        // Fetch all problems
-        async function fetchProblems() {
-            const request = await fetch("/data/problems", { method: "GET" });
-            const problems = (await request.json()) as IProblem[];
-            console.log(problems);
-            updateProblems(problems);
-        }
-        fetchProblems();
-    }, []);
+    // problems
+    const problemsQuery = useQuery({
+        queryKey: ["user_problems"],
+        queryFn: async () => {
+            // Query getting all problems from db
+            const { data } = await axios.get("/data/problems");
+            return data as IProblem[];
+        },
+        refetchInterval: REFRESH_INTERVAL,
+        refetchIntervalInBackground: false,
+        refetchOnWindowFocus: true,
+    });
+    // completed problems
+    // const completionQuery = 
 
     return (
         <>
             <Header title="Problems" />
             {/* Render problem cards */}
-            <div>
-                {(problems == null) ?
-                    <div className={`${foreground}`}>
-                        <LoadingUI size={40} />
-                    </div> 
-                : <ProblemCard problemData={problems[0]} />}
-            </div>
+            {(problemsQuery.isLoading) && <LoadingUI size={40} />}
+            {(problemsQuery.isSuccess && problemsQuery.data != undefined) && (
+                <>
+                    <div className="flex flex-col gap-2">
+                        {problemsQuery.data.map((problem: IProblem) => <ProblemCard problemData={problem} key={problem.id} />)}
+                    </div>
+                </>
+            )}
         </>
     );
 }

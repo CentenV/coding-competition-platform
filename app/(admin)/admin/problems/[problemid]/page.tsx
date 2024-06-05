@@ -22,9 +22,8 @@ export default function EditProblem({ params }: { params: { problemid: string } 
     const queryClient = useQueryClient();
 
     // Fetch specific problem data
-    const QUERY_KEY: string[] = [`problem_${PROBLEM_ID}`];
     const { data, error, isLoading, isFetching, isError, isSuccess, refetch } = useQuery({
-        queryKey: QUERY_KEY,
+        queryKey: [`problem_${PROBLEM_ID}`],
         queryFn: async () => {
             // Query getting specific problem from db
             const { data } = await axios.get(`/data/problems/${PROBLEM_ID}`);
@@ -35,7 +34,7 @@ export default function EditProblem({ params }: { params: { problemid: string } 
 
     return (
         <div>
-            <Header title={`Edit Problem - `} />
+            <Header title={`Edit Problem - ${data?.name}`} />
             <div className={`${foreground}`}>
                 {(isLoading || isFetching) && <LoadingUI size={40} />}
                 {isError && (<div>Error occurred: {error.message}</div>)}

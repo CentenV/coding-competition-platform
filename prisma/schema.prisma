@@ -8,7 +8,7 @@ datasource db {
 }
 
 model competitor {
-  id                 Int                  @id(map: "pk_competitor")
+  id                 Int                  @id(map: "pk_competitor") @unique(map: "unique_competitor_id") @default(autoincrement())
   username           String               @unique(map: "unique_username") @db.VarChar(40)
   full_name          String
   teamid             Int?
@@ -19,7 +19,7 @@ model competitor {
 }
 
 model problem {
-  id                 Int                  @id @unique @default(autoincrement())
+  id                 Int                  @id(map: "pk_problem") @unique(map: "unique_problem_id") @default(autoincrement())
   name               String
   description        String?
   points             Int
@@ -28,7 +28,7 @@ model problem {
 }
 
 model team {
-  id                 Int          @id(map: "pk_team")
+  id                 Int          @id(map: "pk_team") @unique(map: "unique_team_id") @default(autoincrement())
   name               String       @unique(map: "unique_team_name")
   team_members       String[]     @db.VarChar(40)
   points             BigInt

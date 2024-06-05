@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${background} ${primaryTextColor} p-4 h-screen flex flex-row`}>
+      <body className={`${inter.className} ${background} ${primaryTextColor} p-4 h-screen w-screen flex flex-row gap-x-4`}>
           <ReactQueryClient>
             {children}
           </ReactQueryClient>
