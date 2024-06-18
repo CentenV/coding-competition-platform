@@ -3,7 +3,7 @@
 "use client";
 import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
-import { IProblem } from "@/app/_components/interfaces";
+import { IProblem } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
 import ManageProblem, { Action } from "@/app/_components/manage_problem";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import axios from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import HeaderedContent from "@/app/_components/headered_content";
 
 export default function EditProblem({ params }: { params: { problemid: string } }) {
     // Problem id from url
@@ -33,13 +34,12 @@ export default function EditProblem({ params }: { params: { problemid: string } 
     });
 
     return (
-        <div>
-            <Header title={`Edit Problem - ${data?.name}`} />
+        <HeaderedContent header={`Edit Problem - ${data?.name}`}>
             <div className={`${foreground}`}>
                 {(isLoading || isFetching) && <LoadingUI size={40} />}
                 {isError && (<div>Error occurred: {error.message}</div>)}
                 {(isSuccess && !isFetching && data != undefined) ? <ManageProblem problemData={data} problemId={PROBLEM_ID} actionType={Action.UPDATE} submitButtonText={"Update"} deletable={true} /> : null}
             </div>
-        </div>
+        </HeaderedContent>
     )
 }

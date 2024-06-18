@@ -5,13 +5,6 @@ import { useRouter } from 'next/navigation'
 import { ProblemsIcon, button, menuButton } from "./globalstyle";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-// Menu options interface for passing in as parameter
-export interface IMenuOption {
-    text: string,
-    destinationURL: string,
-    icon: JSX.Element
-}
-
 // Menu option component
 export default function UniversalMenuOption({ optionData }: { optionData: IMenuOption }) {
     // NextJS Router

@@ -11,11 +11,11 @@ model competitor {
   id                 Int                  @id(map: "pk_competitor") @unique(map: "unique_competitor_id") @default(autoincrement())
   username           String               @unique(map: "unique_username") @db.VarChar(40)
   full_name          String
-  teamid             Int?
-  team               team?                @relation(fields: [teamid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_team_id")
+  team_id            Int?
+  team               team?                @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_team_teamid")
   competitor_problem competitor_problem[]
 
-  @@index([teamid], map: "idx_fk_competitor_team_teamid")
+  @@index([team_id], map: "fki_competitor_team_teamid")
 }
 
 model problem {
@@ -25,6 +25,18 @@ model problem {
   points             Int
   expected_output    String
   competitor_problem competitor_problem[]
+  problem_run_case   problem_run_case[]
+}
+
+model problem_run_case {
+  id         Int     @id(map: "pk_problem_run_case") @unique(map: "unique_problem_run_case") @default(autoincrement())
+  problem_id Int
+  input      String
+  output     String
+  hidden     Boolean
+  problem    problem @relation(fields: [problem_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_problem_run_case_problem_id")
+
+  @@index([problem_id], map: "fki_problem_run_case_problem_id")
 }
 
 model team {
@@ -37,13 +49,12 @@ model team {
 }
 
 model competitor_problem {
-  competitorid Int
-  problemid    Int
-  competitor   competitor @relation(fields: [competitorid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fkey_competitor_problem_competitor_id")
-  problem      problem    @relation(fields: [problemid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fkey_competitor_problem_problem_id")
+  competitor_id Int
+  problem_id    Int
+  competitor    competitor @relation(fields: [competitor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_problem_competitor_id")
+  problem       problem    @relation(fields: [problem_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_problem_problem_id")
 
-  @@id([problemid, competitorid], map: "pkey_competitor_problem")
-  @@index([competitorid], map: "idx_fkey_competitor_problem_competitor_id")
-  @@index([problemid], map: "idx_fkey_competitor_problem_problem_id")
-  @@index([competitorid], map: "idx_fkey_competitor_problem_team_id")
+  @@id([problem_id, competitor_id], map: "pkey_competitor_problem")
+  @@index([competitor_id], map: "fki_competitor_problem_competitor_id")
+  @@index([problem_id], map: "fki_competitor_problem_problem_id")
 }

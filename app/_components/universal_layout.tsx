@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { foreground } from "./globalstyle";
-import UniversalMenuOption, { IMenuOption } from "./menu_option";
+import UniversalMenuOption from "./menu_option";
+import { IMenuOption } from "../types";
 
 export default function UniversalLayout({ children, homeURL, options }: { children: React.ReactNode, homeURL: string, options?: IMenuOption[] | undefined }) {
     return (

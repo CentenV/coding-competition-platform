@@ -6,10 +6,11 @@ import { AddIcon, button, foreground, primaryButton } from "@/app/_components/gl
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import React, { useEffect, useState } from "react";
-import { IProblem } from "@/app/_components/interfaces";
+import { IProblem } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import HeaderedContent from "@/app/_components/headered_content";
 
 const REFRESH_INTERVAL: number = 1000;
 const COLUMNS: string[] = ["ID", "Problem Name", "Problem Description", "Points"];
@@ -33,8 +34,7 @@ export default function ProblemsPage() {
     });
 
     return (
-        <div>
-            <Header title={"Problems"} />
+        <HeaderedContent header="Problems">
             <div className={`${foreground}`}>
                 {/* // Print out all rows of problems */}
                 <div>
@@ -43,6 +43,7 @@ export default function ProblemsPage() {
                     {(isSuccess && data !== undefined) ? 
                         (
                             <>
+                                {/* New Problem */}
                                 <div className={`mb-4`}>
                                     <div className={`${button} ${primaryButton} flex flex-row gap-2 w-min`} onClick={(event: React.MouseEvent<HTMLElement>) => {
                                         event.preventDefault();
@@ -52,6 +53,7 @@ export default function ProblemsPage() {
                                         <span>New</span>
                                     </div>
                                 </div>
+                                {/* Table of Problems */}
                                 <div className={`border-2 border-neutral-500 rounded-md overflow-hidden`}>
                                     <table className={`w-full`}>
                                         <thead>
@@ -68,9 +70,9 @@ export default function ProblemsPage() {
                                                 return (
                                                     <tr className={`bg-zinc-200 border-t-2 border-b-2 border-white hover:bg-stone-300 hover:cursor-pointer`} key={`${key}_entry`} onClick={() => ROUTER.push(`/admin/problems/${obj.id}`)}>
                                                         <td className={`px-3 py-2 select-none`} key={`${key}_id`}>{obj.id}</td>
-                                                        <td className={`px-3 py-2`} key={`${key}_name`}>{obj.name}</td>
-                                                        <td className={`px-3 py-2`} key={`${key}_description`}>{obj.description}</td>
-                                                        <td className={`px-3 py-2`} key={`${key}_points`}>{obj.points}</td>
+                                                        <td className={`px-3 py-2 select-none`} key={`${key}_name`}>{obj.name}</td>
+                                                        {/* <td className={`px-3 py-2 select-none overflow-hidden text-nowrap white.space-nowrap text-ellipsis`} key={`${key}_description`}>{obj.description}</td> */}
+                                                        <td className={`px-3 py-2 select-none`} key={`${key}_points`}>{obj.points}</td>
                                                     </tr>
                                                 );
                                             })}
@@ -82,6 +84,6 @@ export default function ProblemsPage() {
                     }
                 </div>
             </div>
-        </div>
+        </HeaderedContent>
     )
 }

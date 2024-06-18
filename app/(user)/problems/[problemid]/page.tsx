@@ -2,7 +2,7 @@
 // user page dedicated for individual problems. contains the problem instructions, editor and output results
 "use client";
 import { button, divider, foreground, foregroundAlternate, header, subHeader } from "@/app/_components/globalstyle";
-import { IProblem } from "@/app/_components/interfaces";
+import { IProblem } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
 import { Editor } from "@monaco-editor/react";
 import { useQuery } from "@tanstack/react-query";

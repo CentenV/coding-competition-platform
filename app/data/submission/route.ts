@@ -2,7 +2,7 @@
 // API route for 
 import { NextResponse } from "next/server";
 import { Execute, Language, PythonExecute } from "./execute";
-import { ISubmissionResponse } from "@/app/_components/interfaces";
+import { ISubmissionResponse } from "@/app/types";
 
 export async function POST(request: Request) {
     // Request Body

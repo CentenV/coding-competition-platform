@@ -4,10 +4,11 @@
 import { button, cancelButton, deleteButton, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { IProblem } from "./interfaces";
-import React from "react";
+import { IProblem } from "@/app/types";
+import React, { useCallback } from "react";
 import axios from "axios";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 export enum Action {
     CREATE,
@@ -17,6 +18,9 @@ export enum Action {
 export default function ManageProblem({ problemData, problemId, actionType, submitButtonText, deletable }: { problemData: IProblem, problemId?: number | undefined, actionType: Action, submitButtonText: string, deletable?: boolean | undefined }) {
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
+
+    // Form handler/hook
+    const { register, handleSubmit } = useForm<IProblem>();
 
     // Mutation type for all Action types
     const createMutation = useMutation({
@@ -33,20 +37,14 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
     });
 
     // Action method to create/update probems from the form
-    async function action(problemFormData: FormData) {
-        // Get data from form and format it, preparing data for mutation
-        const data: IProblem = {
-            name: String(problemFormData.get("problem-name")),
-            description: String(problemFormData.get("problem-desc")),
-            points: Number(problemFormData.get("problem-pts")),
-            expected_output: String(problemFormData.get("problem-expected-output"))
-        };
-
+    const action: SubmitHandler<IProblem> = ((data: IProblem) => {
         // Call respective mutation
         switch (actionType) {
             case Action.CREATE:
                 // Push new problem to database
-                createMutation.mutate(data); 
+                createMutation.mutate(data);
+                // Check for success
+
                 break;
             case Action.UPDATE:
                 // Push updates to problems to database
@@ -58,7 +56,7 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
 
         // Redirect back to problem list if all successful
         ROUTER.replace("/admin/problems");
-    }
+    });
 
     // Delete problem
     async function deleteProblem(event: React.MouseEvent<HTMLElement>) {
@@ -77,16 +75,16 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
     }
 
     return (
-        <form action={action} className={`flex flex-col`}>
-            <label className={`${inputSectionLabel}`} >Problem Details</label>
+        <form onSubmit={handleSubmit(action)} className={`flex flex-col`}>
+            <label className={`${inputSectionLabel}`}>Problem Details</label>
             <label className={`${inputLabel}`}>Name</label>
-            <input name="problem-name" type="text" className={`${inputBox}`} defaultValue={problemData.name} />
+            <input {...register("name")} type="text" className={`${inputBox}`} defaultValue={problemData.name} />
             <label className={`${inputLabel}`}>Description</label>
-            <textarea name="problem-desc" rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
+            <textarea {...register("description")} rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
             <label className={`${inputLabel}`}>Points Value</label>
-            <input name="problem-pts" type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
+            <input {...register("points", { valueAsNumber: true })} type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
             <label className={`${inputLabel}`}>Expected Output</label>
-            <textarea name="problem-expected-output" rows={4} className={`${inputBox} resize-none`} defaultValue={problemData.expected_output} />
+            <textarea {...register("expected_output")} rows={4} className={`${inputBox} resize-none`} defaultValue={problemData.expected_output} />
             <div className={`flex flex-row gap-4 mt-8 w-full`}>
                 <input type="submit" className={`${button} ${primaryButton} uppercase w-full`} value={submitButtonText} />
                 <button className={`${button} ${cancelButton} uppercase w-full`} onClick={(event: React.MouseEvent<HTMLElement>) => {

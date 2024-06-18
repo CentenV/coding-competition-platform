@@ -1,6 +1,6 @@
 // ALL PROBLEMS API ROUTE //
 // API route for fetching all problems
-import { IProblem } from "@/app/_components/interfaces";
+import { IProblem } from "@/app/types";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 

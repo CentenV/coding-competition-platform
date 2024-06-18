@@ -3,7 +3,7 @@
 "use client";
 import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
-import { IProblem } from "@/app/_components/interfaces";
+import { IProblem } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -38,7 +38,7 @@ export default function UserProblemList() {
             {(problemsQuery.isLoading) && <LoadingUI size={40} />}
             {(problemsQuery.isSuccess && problemsQuery.data != undefined) && (
                 <>
-                    <div className="flex flex-col gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                         {problemsQuery.data.map((problem: IProblem) => <ProblemCard problemData={problem} key={problem.id} />)}
                     </div>
                 </>
@@ -58,7 +58,7 @@ function ProblemCard({ problemData } : { problemData: IProblem }) {
 
     return (
         <div className={`${foreground} grid grid-rows-2 grid-cols-2 w-full cursor-pointer`} onClick={(event: React.MouseEvent<HTMLDivElement>) => { event.preventDefault(); ROUTER.push(`/problems/${problemData.id}`); }}>
-            <div className={`text-2xl font-bold row-span-1 col-span-1`}>{problemData.name}</div>
+            <div className={`text-xl font-bold row-span-1 col-span-1`}>{problemData.name}</div>
             <div>{problemData.points} points</div>
             <div>Difficulty</div>
         </div>
