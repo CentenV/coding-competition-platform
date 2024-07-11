@@ -1,5 +1,5 @@
 // SPECIFIC PROBLEMS API ROUTE //
-// API route for interacting with a specific problem
+// API route for fetching and interacting with a specific problem
 import { IProblem } from "@/app/types";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";

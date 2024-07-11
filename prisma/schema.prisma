@@ -31,7 +31,7 @@ model problem {
 model problem_run_case {
   id         Int     @id(map: "pk_problem_run_case") @unique(map: "unique_problem_run_case") @default(autoincrement())
   problem_id Int
-  input      String
+  input      String?
   output     String
   hidden     Boolean
   problem    problem @relation(fields: [problem_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_problem_run_case_problem_id")

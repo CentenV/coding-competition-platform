@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useEffect, useState } from "react";
 
 const REFRESH_INTERVAL: number = 2000;
 
@@ -53,7 +52,7 @@ problems.map((problem: IProblem) => {
  */
 // Individual problem card
 function ProblemCard({ problemData } : { problemData: IProblem }) {
-    // function
+    // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
 
     return (

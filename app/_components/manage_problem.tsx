@@ -1,7 +1,7 @@
 // MANAGE PROBLEM COMPONENT //
 // provides the template that is used to create/edit problems
 "use client";
-import { button, cancelButton, deleteButton, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
+import { button, cancelButton, deleteButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { IProblem } from "@/app/types";
@@ -16,6 +16,9 @@ export enum Action {
 }
 
 export default function ManageProblem({ problemData, problemId, actionType, submitButtonText, deletable }: { problemData: IProblem, problemId?: number | undefined, actionType: Action, submitButtonText: string, deletable?: boolean | undefined }) {
+    // TEMP
+    const tabHeaders = ["Run Case 1", "Run Case 2", "Test Case 1"]
+
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
 
@@ -75,7 +78,7 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
     }
 
     return (
-        <form onSubmit={handleSubmit(action)} className={`flex flex-col`}>
+        <form onSubmit={handleSubmit(action)} className={`${foreground} flex flex-col`}>
             <label className={`${inputSectionLabel}`}>Problem Details</label>
             <label className={`${inputLabel}`}>Name</label>
             <input {...register("name")} type="text" className={`${inputBox}`} defaultValue={problemData.name} />

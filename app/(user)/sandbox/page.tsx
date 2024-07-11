@@ -8,6 +8,7 @@ import { Editor, Monaco } from "@monaco-editor/react";
 import Header from "@/app/_components/header";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { ISandboxSubmissionRequest, ISandboxSubmissionResponse, SubmissionLanguage } from "@/app/types";
 
 // Page component
 export default function SandboxPage() {
@@ -21,14 +22,14 @@ export default function SandboxPage() {
     const { data, mutate, isSuccess, isError, error, isPending } = useMutation({
         mutationKey: [`sandbox_execute`],
         mutationFn: async (inputtedCode: string) => {
-            // Format to for Rest API
-            const formattedData = JSON.stringify({
-                code: inputtedCode
-            });
+            // Prepare request for Rest API
+            const formattedData: ISandboxSubmissionRequest = {
+                code: inputtedCode,
+                language: SubmissionLanguage.PYTHON,
+            };
             // Send POST request and return data
-            const { data } = await axios.post("/data/submission", formattedData);
-            console.log(data);
-            return data.output as string;
+            const { data } = await axios.post<ISandboxSubmissionResponse>("/data/submission/sandbox", formattedData);
+            return data.output;
         },
     });
 
@@ -41,14 +42,8 @@ export default function SandboxPage() {
     async function runCode() {
         // Clear currently displayed output
         updateOutput(null);
-        
-        // Submit code to server to handle
-        mutate(getCode());
-    }
-
-    // Getting value from editor
-    function getCode(): string {
-        return codeEditor?.current?.getValue();
+        // Submit code to server to handle and fetching code from editor
+        mutate(codeEditor?.current?.getValue());
     }
 
     return (

@@ -35,11 +35,9 @@ export default function EditProblem({ params }: { params: { problemid: string } 
 
     return (
         <HeaderedContent header={`Edit Problem - ${data?.name}`}>
-            <div className={`${foreground}`}>
-                {(isLoading || isFetching) && <LoadingUI size={40} />}
-                {isError && (<div>Error occurred: {error.message}</div>)}
-                {(isSuccess && !isFetching && data != undefined) ? <ManageProblem problemData={data} problemId={PROBLEM_ID} actionType={Action.UPDATE} submitButtonText={"Update"} deletable={true} /> : null}
-            </div>
+            {(isLoading || isFetching) && <div className={`${foreground}`}><LoadingUI size={40} /></div>}
+            {isError && <div className={`${foreground}`}>Error occurred: {error.message}</div>}
+            {(isSuccess && !isFetching && data != undefined) ? <ManageProblem problemData={data} problemId={PROBLEM_ID} actionType={Action.UPDATE} submitButtonText={"Update"} deletable={true} /> : null}
         </HeaderedContent>
     )
 }
