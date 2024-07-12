@@ -4,11 +4,12 @@
 import { button, cancelButton, deleteButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { IProblem } from "@/app/types";
-import React, { useCallback } from "react";
+import { IProblem, ITabbedMenuEntry } from "@/app/types";
+import React from "react";
 import axios from "axios";
-import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
+import VerticalTabbedMenu from "@/app/_components/vertical_tabbed_menu";
 
 export enum Action {
     CREATE,
@@ -16,9 +17,6 @@ export enum Action {
 }
 
 export default function ManageProblem({ problemData, problemId, actionType, submitButtonText, deletable }: { problemData: IProblem, problemId?: number | undefined, actionType: Action, submitButtonText: string, deletable?: boolean | undefined }) {
-    // TEMP
-    const tabHeaders = ["Run Case 1", "Run Case 2", "Test Case 1"]
-
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
 
@@ -46,8 +44,7 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
             case Action.CREATE:
                 // Push new problem to database
                 createMutation.mutate(data);
-                // Check for success
-
+                // TODO: Check for success
                 break;
             case Action.UPDATE:
                 // Push updates to problems to database
@@ -77,25 +74,43 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
         ROUTER.replace("/admin/problems");
     }
 
+    // Adding new case option
+
+    // TODO: remove
+    let testCases: ITabbedMenuEntry[] = [{ title: "Add Run Case", content: () => (<ManageCase/>) }];
+
     return (
-        <form onSubmit={handleSubmit(action)} className={`${foreground} flex flex-col`}>
-            <label className={`${inputSectionLabel}`}>Problem Details</label>
-            <label className={`${inputLabel}`}>Name</label>
-            <input {...register("name")} type="text" className={`${inputBox}`} defaultValue={problemData.name} />
-            <label className={`${inputLabel}`}>Description</label>
-            <textarea {...register("description")} rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
-            <label className={`${inputLabel}`}>Points Value</label>
-            <input {...register("points", { valueAsNumber: true })} type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
-            <label className={`${inputLabel}`}>Expected Output</label>
-            <textarea {...register("expected_output")} rows={4} className={`${inputBox} resize-none`} defaultValue={problemData.expected_output} />
-            <div className={`flex flex-row gap-4 mt-8 w-full`}>
+        <div className={`${foreground} flex flex-col overflow-scroll`}>
+            <form onSubmit={handleSubmit(action)} className={`flex flex-col`}>
+                <label className={`${inputSectionLabel}`}>Problem Details</label>
+                <label className={`${inputLabel}`}>Name</label>
+                <input {...register("name")} type="text" className={`${inputBox}`} defaultValue={problemData.name} />
+                <label className={`${inputLabel}`}>Description</label>
+                <textarea {...register("description")} rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
+                <label className={`${inputLabel}`}>Points Value</label>
+                <input {...register("points", { valueAsNumber: true })} type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
+                {/* Evaluation */}
+                <label className={`${inputSectionLabel} mt-7`}>Evaluation</label>
+                <label className={`${inputLabel}`}>Run Cases</label>
+                <VerticalTabbedMenu tabs={testCases} />
                 <input type="submit" className={`${button} ${primaryButton} uppercase w-full`} value={submitButtonText} />
+            </form>
+            {/* Page/Problem Controls */}
+            <div className={`flex flex-row gap-4 mt-8 w-full`}>
                 <button className={`${button} ${cancelButton} uppercase w-full`} onClick={(event: React.MouseEvent<HTMLElement>) => {
                     event.preventDefault();
                     ROUTER.replace("/admin/problems");
                 }}>Cancel</button>
                 {(deletable != undefined || deletable) && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
             </div>
-        </form>
+        </div>
+    );
+}
+
+function ManageCase() {
+    return (
+        <div className={`w-full`}>
+            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`}></textarea>
+        </div>
     );
 }

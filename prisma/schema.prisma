@@ -23,7 +23,6 @@ model problem {
   name               String
   description        String?
   points             Int
-  expected_output    String
   competitor_problem competitor_problem[]
   problem_run_case   problem_run_case[]
 }
