@@ -37,8 +37,20 @@ export interface IProblemRunCase {
 }
 
 // API Response Formats //
-
+// Authentication (Login)
+// auth login requests
+export interface ILogin {
+    id: string,
+    password: string,
+}
+// storing session id in server memory
+export interface ISessionId {
+    userId: string,
+    sessionId: string,
+    lastResponse: number,
+}
 // Submissions
+// data types
 export enum SubmissionLanguage {
     PYTHON
 }
