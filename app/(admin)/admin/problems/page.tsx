@@ -1,7 +1,6 @@
 // ADMIN PROBLEMS PAGE //
 // problem list management page found in the administrator page of the platform
 "use client";
-import Header from "@/app/_components/header";
 import { AddIcon, button, foreground, primaryButton } from "@/app/_components/globalstyle";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";

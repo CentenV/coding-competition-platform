@@ -1,26 +1,12 @@
 // SPECIFIC PROBLEMS ADMIN API ROUTE //
-// API route for fetching and interacting with a specific problem (full data)
+// ADMIN ONLY API route for fetching and interacting with a specific problem (full data)
 import { IProblem } from "@/app/types";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const PRISMA: PrismaClient = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-    // Specified Problem ID
-    const problemId: number = Number(params.id);
-
-    // Get specific problems from database based on id in 
-    let problems = await PRISMA.problem.findUnique({
-        where: {
-            id: problemId
-        }
-    });
-
-    return NextResponse.json(problems);
-}
-
-
+// Update trivial problem data
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
     // Specified Problem ID
     const problemId: number = Number(params.id);
@@ -43,6 +29,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     return NextResponse.json({});
 }
 
+// Delete problem
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
     // Specified Problem ID
     const problemId: number = Number(params.id);

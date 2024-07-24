@@ -11,6 +11,7 @@ export interface IMenuOption {
 export interface ITabbedMenuEntry {
     title: string,
     content: React.FC,
+    key: string,
 }
 
 // Backend Data Formatting //
@@ -24,14 +25,12 @@ export interface IProblem {
     name: string,
     description: string,
     points: number,
-    expected_output: string,
-    run_cases: IProblemRunCase[]
 }
-// 
+// problem run case
 export interface IProblemRunCase {
     id: number,
     problem_id: number,
-    input: string,
+    input?: string,
     output: string,
     hidden: boolean
 }

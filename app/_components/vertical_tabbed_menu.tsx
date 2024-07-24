@@ -27,9 +27,9 @@ export default function VerticalTabbedMenu({ tabs }: { tabs: ITabbedMenuEntry[] 
     return (
         <div className={`grid grid-rows-[2fr] grid-cols-[30%_69%] gap-2 ${foregroundAlternate} h-40`}>
             {/* Render all tabs */}
-            <div className={`flex flex-col w-full order-first border-r-2`}>
+            <div className={`flex flex-col w-full order-first border-r-2 gap-3`}>
                 {tabs.map((currentTab: ITabbedMenuEntry, index: number) => (
-                    <div className={`hover:cursor-pointer border-2 border-black rounded-md px-3 py-2 mr-2`} onClick={(event: React.MouseEvent) => { event.preventDefault(); updateActiveTab(index); }}>
+                    <div className={`hover:cursor-pointer border-2 border-black rounded-md px-3 py-2 mr-2`} onClick={(event: React.MouseEvent) => { event.preventDefault(); updateActiveTab(index); }} key={currentTab.key}>
                         {currentTab.title}
                     </div>
                 ))}

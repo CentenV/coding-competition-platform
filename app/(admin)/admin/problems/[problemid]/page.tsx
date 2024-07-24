@@ -4,7 +4,7 @@
 import { foreground } from "@/app/_components/globalstyle";
 import { IProblem, ITabbedMenuEntry } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
-import ManageProblem, { Action } from "@/app/_components/manage_problem";
+import ManageProblem, { ManageProblemPageType } from "@/app/_components/manage_problem";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import HeaderedContent from "@/app/_components/headered_content";
@@ -12,11 +12,6 @@ import HeaderedContent from "@/app/_components/headered_content";
 export default function EditProblem({ params }: { params: { problemid: string } }) {
     // Problem id from url
     const PROBLEM_ID = Number(params.problemid);
-
-    // List of run cases
-    let runCases: ITabbedMenuEntry[] = [];
-    // List of test cases
-    let testCases = [];
 
     // Fetch specific problem data
     const { data, error, isLoading, isFetching, isError, isSuccess, refetch } = useQuery({
@@ -26,7 +21,7 @@ export default function EditProblem({ params }: { params: { problemid: string } 
             const { data } = await axios.get(`/data/problems/${PROBLEM_ID}`);
             return data as IProblem;
         },
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
     });
 
     return (
@@ -35,7 +30,7 @@ export default function EditProblem({ params }: { params: { problemid: string } 
             { isError && <div className={`${foreground}`}>Error occurred: {error.message}</div> }
             { (isSuccess && !isFetching && data != undefined) &&
                 <HeaderedContent header={`Edit Problem - ${data?.name}`}>
-                    <ManageProblem problemData={data} problemId={PROBLEM_ID} actionType={Action.UPDATE} submitButtonText={"Update"} deletable={true} />
+                    <ManageProblem problemData={data} problemId={PROBLEM_ID} pageType={ManageProblemPageType.UPDATE} />
                 </HeaderedContent>
             }
         </>

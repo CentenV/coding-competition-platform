@@ -4,81 +4,119 @@
 import { button, cancelButton, deleteButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { IProblem, ITabbedMenuEntry } from "@/app/types";
-import React from "react";
+import { IProblem, IProblemRunCase, ITabbedMenuEntry } from "@/app/types";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import VerticalTabbedMenu from "@/app/_components/vertical_tabbed_menu";
+import toast from "react-hot-toast";
+import LoadingUI from "./loading_ui";
+import { resolve } from "path";
 
-export enum Action {
+// Used to distinguish between problem editing or creation
+export enum ManageProblemPageType {
     CREATE,
     UPDATE
 }
 
-export default function ManageProblem({ problemData, problemId, actionType, submitButtonText, deletable }: { problemData: IProblem, problemId?: number | undefined, actionType: Action, submitButtonText: string, deletable?: boolean | undefined }) {
+export default function ManageProblem({ problemData, problemId, pageType }: { problemData: IProblem, problemId?: number, pageType: ManageProblemPageType }) {
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
 
-    // Form handler/hook
-    const { register, handleSubmit } = useForm<IProblem>();
-
     // Mutation type for all Action types
     const createMutation = useMutation({
-        mutationKey: [`create_${Date.now()}`],
-        mutationFn: async (newProblemData: IProblem) => { await axios.post("/data/problems", newProblemData); }     // Call Rest API post to create new problem
+        mutationKey: [`create_${problemId}`],
+        mutationFn: async (newProblemData: IProblem) => {
+            // Call Rest API post to create new problem. Receives new problem id in return
+            const { data } = await axios.post("/data/admin/problems", newProblemData); 
+            return data as { new_problem_id: string };
+        },     
+        onSuccess: async (data: { new_problem_id: string }) => { 
+            toast.success("Successfully created new problem");
+            console.log(data.new_problem_id);
+            ROUTER.push(`/admin/problems/${data.new_problem_id}`);
+        },
+        onError: () => { toast.error("Cannot new problem"); }
     });
     const updateMutation = useMutation({
-        mutationKey: [`update_${Date.now()}`],
-        mutationFn: async (updatedProblemData: IProblem) => { await axios.patch(`/data/problems/${problemData.id}`, updatedProblemData); }      // Call Rest API patch to update problem
+        mutationKey: [`update_${problemId}`],
+        mutationFn: async (updatedProblemData: IProblem) => { await axios.patch(`/data/admin/problems/${problemData.id}`, updatedProblemData); },      // Call Rest API patch to update problem
+        onSuccess: () => { toast.success("Updated problem details"); },
+        onError: () => { toast.error("Cannot update problem details"); }
     }); 
     const deleteMutation = useMutation({
-        mutationKey: [`delete_${problemId}_${Date.now()}`], 
-        mutationFn: async () => { await axios.delete(`/data/problems/${problemData.id}`); }
+        mutationKey: [`delete_${problemId}`], 
+        mutationFn: async () => { await axios.delete(`/data/admin/problems/${problemData.id}`); }
     });
-
-    // Action method to create/update probems from the form
-    const action: SubmitHandler<IProblem> = ((data: IProblem) => {
-        // Call respective mutation
-        switch (actionType) {
-            case Action.CREATE:
-                // Push new problem to database
-                createMutation.mutate(data);
-                // TODO: Check for success
-                break;
-            case Action.UPDATE:
-                // Push updates to problems to database
-                updateMutation.mutate(data);
-                break;
-            default:
-                throw "Invalid action type";
+    
+    // Fetching all the test and run cases for the problem
+    const ADD_RUN_CASE_OPTION: ITabbedMenuEntry = { title: "Add Run Case", content: () => (<>new problem</>), key: "New" };
+    const [runCases, updateRunCaseEntries] = useState<ITabbedMenuEntry[]>([ADD_RUN_CASE_OPTION]);
+    const getRunCases = useQuery({ 
+        queryKey: [`get_run_cases_${problemId}`],
+        queryFn: async () => {
+            const { data } = await axios.get(`/data/admin/problems/${problemId}/runcases`);
+            console.log(data);
+            return data as IProblemRunCase[];
+        },
+        enabled: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: true
+    });
+    // Fetching if page is of the update type
+    useEffect(() => {
+        if (pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf()) {
+            getRunCases.refetch();
         }
-
-        // Redirect back to problem list if all successful
-        ROUTER.replace("/admin/problems");
-    });
-
+    }, []);
+    // Assembly of run cases memoized
+    const assembleRunCases = useMemo(() => {
+        let newRunCaseLog: ITabbedMenuEntry[] = [];
+        // Iterate and convert from data to UI
+        if (getRunCases.data != undefined) {
+            getRunCases.data.map((runCase: IProblemRunCase, index: number) => {
+                newRunCaseLog.push({ title: `Run Case ${index + 1}`, content: () => (<ManageCase initialData={runCase} />), key: runCase.id.toString() })
+            });
+        }
+        newRunCaseLog.push(ADD_RUN_CASE_OPTION);
+        updateRunCaseEntries(newRunCaseLog);
+    }, [getRunCases.data])
+    
     // Delete problem
     async function deleteProblem(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         
         // Call mutation
-        if (deletable) {
-            deleteMutation.mutate();
-        }
-        else {
-            throw "Problem page marked deletable but deleteMutation was called";
-        }
-
+        deleteMutation.mutate();
+        
         // Redirect back to problem list if all successful
         ROUTER.replace("/admin/problems");
+        toast.success(`Successfully deleted problem id: ${problemData.id}`);
     }
+    
+    // Form handler/hook
+    const { register, handleSubmit } = useForm<IProblem>();
+    
+    // Action method to create/update probems from the form
+    const action: SubmitHandler<IProblem> = (data: IProblem) => {
+        // Call respective mutation
+        switch (pageType) {
+            case ManageProblemPageType.CREATE:
+                // Push new problem to database
+                createMutation.mutate(data);
+                break;
+            case ManageProblemPageType.UPDATE:
+                // Push updates to problems to database
+                updateMutation.mutate(data);
+                console.log(updateMutation.data);
+                break;
+            default:
+                throw "Invalid action type";
+        }
+    };
 
-    // Adding new case option
-
-    // TODO: remove
-    let testCases: ITabbedMenuEntry[] = [{ title: "Add Run Case", content: () => (<ManageCase/>) }];
-
+    
     return (
         <div className={`${foreground} flex flex-col overflow-scroll`}>
             <form onSubmit={handleSubmit(action)} className={`flex flex-col`}>
@@ -89,28 +127,39 @@ export default function ManageProblem({ problemData, problemId, actionType, subm
                 <textarea {...register("description")} rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
                 <label className={`${inputLabel}`}>Points Value</label>
                 <input {...register("points", { valueAsNumber: true })} type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
-                {/* Evaluation */}
-                <label className={`${inputSectionLabel} mt-7`}>Evaluation</label>
-                <label className={`${inputLabel}`}>Run Cases</label>
-                <VerticalTabbedMenu tabs={testCases} />
-                <input type="submit" className={`${button} ${primaryButton} uppercase w-full`} value={submitButtonText} />
+                <input type="submit" className={`${button} ${primaryButton} uppercase w-full mt-5`} value={(pageType.valueOf() == ManageProblemPageType.CREATE) ? "Create" : "Update"} />
             </form>
+            {/* Evaluation */}
+            { pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf() && 
+                <>
+                    <label className={`${inputSectionLabel} mt-7`}>Evaluation</label>
+                    <div className={`${inputLabel}`}>Run Cases</div>
+                    {getRunCases.isLoading && <LoadingUI size={35} /> }
+                    {getRunCases.isError && <div>Error occurred fetching the run cases</div>}
+                    {!getRunCases.isLoading && !getRunCases.isError && <VerticalTabbedMenu tabs={runCases} /> }
+                </>
+            }
             {/* Page/Problem Controls */}
             <div className={`flex flex-row gap-4 mt-8 w-full`}>
                 <button className={`${button} ${cancelButton} uppercase w-full`} onClick={(event: React.MouseEvent<HTMLElement>) => {
                     event.preventDefault();
                     ROUTER.replace("/admin/problems");
                 }}>Cancel</button>
-                {(deletable != undefined || deletable) && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
+                {pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf() && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
             </div>
         </div>
     );
 }
 
-function ManageCase() {
+function ManageCase({ initialData }: { initialData: IProblemRunCase }) {
+    console.log(initialData);
+
     return (
-        <div className={`w-full`}>
-            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`}></textarea>
-        </div>
+        <form className={`w-full`}>
+            <label>Input</label>
+            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} value={initialData.input}></textarea>
+            <label>Expected Output</label>
+            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} value={initialData.input}></textarea>
+        </form>
     );
 }
