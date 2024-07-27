@@ -1,13 +1,11 @@
 // RUN/TEST CASES COMPONENT //
 // displays the run/test cases when the code is run and returned from the server
 "use client";
-import { foregroundAlternate, LeftArrowIcon, RightArrowIcon } from "@/app/_components/globalstyle";
-import TabbedMenu from "@/app/_components/tabbed_menu";
+import { LeftArrowIcon, RightArrowIcon } from "@/app/_components/globalstyle";
 import { IProblemSubmissionResponse, ITabbedMenuEntry } from "@/app/types";
-import React, { MouseEventHandler, useState } from "react";
+import React, { useState } from "react";
 
 export default function CodeCases({ cases }: { cases: IProblemSubmissionResponse[] }) {
-    console.log(cases);
     const [currentViewingCase, updateCurrentViewingCase] = useState<number | null>(null);
 
     return (

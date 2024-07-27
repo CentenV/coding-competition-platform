@@ -4,7 +4,7 @@
 import { foreground } from "@/app/_components/globalstyle";
 import { IProblem, ITabbedMenuEntry } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
-import ManageProblem, { ManageProblemPageType } from "@/app/_components/manage_problem";
+import ManageProblem from "@/app/_components/manage_problem";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import HeaderedContent from "@/app/_components/headered_content";
@@ -30,7 +30,7 @@ export default function EditProblem({ params }: { params: { problemid: string } 
             { isError && <div className={`${foreground}`}>Error occurred: {error.message}</div> }
             { (isSuccess && !isFetching && data != undefined) &&
                 <HeaderedContent header={`Edit Problem - ${data?.name}`}>
-                    <ManageProblem problemData={data} problemId={PROBLEM_ID} pageType={ManageProblemPageType.UPDATE} />
+                    <ManageProblem problemData={data} problemId={PROBLEM_ID} pageType={"update"} />
                 </HeaderedContent>
             }
         </>

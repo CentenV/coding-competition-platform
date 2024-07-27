@@ -12,6 +12,7 @@ export interface ITabbedMenuEntry {
     title: string,
     content: React.FC,
     key: string,
+    onTabClick?: Function,
 }
 
 // Backend Data Formatting //
@@ -28,9 +29,9 @@ export interface IProblem {
 }
 // problem run case
 export interface IProblemRunCase {
-    id: number,
+    id?: number,
     problem_id: number,
-    input?: string,
+    input: string,
     output: string,
     hidden: boolean
 }

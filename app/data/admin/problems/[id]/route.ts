@@ -12,7 +12,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     const problemId: number = Number(params.id);
 
     // Get PATCH request body
-    let newProblemData: IProblem = await request.json();
+    let newProblem: IProblem = await request.json();
 
     // Push to database
     const updateProblem = await PRISMA.problem.update({
@@ -20,9 +20,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
             id: problemId
         },
         data: {
-            name: newProblemData.name,
-            description: newProblemData.description,
-            points: newProblemData.points,
+            name: newProblem.name,
+            description: newProblem.description,
+            points: newProblem.points,
         }
     });
 

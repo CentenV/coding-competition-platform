@@ -7,34 +7,33 @@ import { useRouter } from "next/navigation";
 import { IProblem, IProblemRunCase, ITabbedMenuEntry } from "@/app/types";
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import VerticalTabbedMenu from "@/app/_components/vertical_tabbed_menu";
 import toast from "react-hot-toast";
 import LoadingUI from "./loading_ui";
-import { resolve } from "path";
 
-// Used to distinguish between problem editing or creation
-export enum ManageProblemPageType {
-    CREATE,
-    UPDATE
-}
+export default function ManageProblem({ problemData, problemId, pageType }: { problemData: IProblem, problemId?: number, pageType: "create" | "update" }) {
+    // Page type check
+    if (pageType == "update" && problemId == undefined) {
+        throw "Invalid configuration of the ManageProblem component";
+    }
 
-export default function ManageProblem({ problemData, problemId, pageType }: { problemData: IProblem, problemId?: number, pageType: ManageProblemPageType }) {
     // Next.JS Router
     const ROUTER: AppRouterInstance = useRouter();
+    // React Query client
+    const QUERYCLIENT = useQueryClient();
 
     // Mutation type for all Action types
     const createMutation = useMutation({
-        mutationKey: [`create_${problemId}`],
+        mutationKey: [`create_new_problem`],
         mutationFn: async (newProblemData: IProblem) => {
             // Call Rest API post to create new problem. Receives new problem id in return
             const { data } = await axios.post("/data/admin/problems", newProblemData); 
             return data as { new_problem_id: string };
         },     
-        onSuccess: async (data: { new_problem_id: string }) => { 
+        onSuccess: async (data: { new_problem_id: string }) => {
             toast.success("Successfully created new problem");
-            console.log(data.new_problem_id);
             ROUTER.push(`/admin/problems/${data.new_problem_id}`);
         },
         onError: () => { toast.error("Cannot new problem"); }
@@ -51,22 +50,40 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
     });
     
     // Fetching all the test and run cases for the problem
-    const ADD_RUN_CASE_OPTION: ITabbedMenuEntry = { title: "Add Run Case", content: () => (<>new problem</>), key: "New" };
+    const ADD_RUN_CASE_OPTION: ITabbedMenuEntry = { title: "Add Run Case", content: () => (<></>), key: "New", onTabClick: () => { createRunCase.mutate(); } };
     const [runCases, updateRunCaseEntries] = useState<ITabbedMenuEntry[]>([ADD_RUN_CASE_OPTION]);
     const getRunCases = useQuery({ 
-        queryKey: [`get_run_cases_${problemId}`],
+        queryKey: [`runcases`, `get`, `${problemId}`],
         queryFn: async () => {
             const { data } = await axios.get(`/data/admin/problems/${problemId}/runcases`);
-            console.log(data);
             return data as IProblemRunCase[];
         },
-        enabled: false,
+        enabled: (pageType == "update") ? true : false,
         refetchOnWindowFocus: false,
         refetchOnMount: true
     });
+    const createRunCase = useMutation({
+        mutationKey: [`new_run_case`],
+        mutationFn: async () => {
+            // Type check
+            if (pageType == "update" && problemId != undefined) {
+                const newRunCase: Omit<IProblemRunCase, "problem_id"> = {
+                    input: "",
+                    output: "",
+                    hidden: false,
+                };
+                const { data } = await axios.post(`/data/admin/problems/${problemId}/runcases`, newRunCase);
+                return data as { new_run_case_id: string };
+            }
+        },
+        onSuccess: () => {
+            QUERYCLIENT.invalidateQueries({ queryKey: [`runcases`, `get`, `${problemId}`] });
+            toast.success("New run case added");
+        }
+    });
     // Fetching if page is of the update type
     useEffect(() => {
-        if (pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf()) {
+        if (pageType == "update") {
             getRunCases.refetch();
         }
     }, []);
@@ -76,7 +93,13 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         // Iterate and convert from data to UI
         if (getRunCases.data != undefined) {
             getRunCases.data.map((runCase: IProblemRunCase, index: number) => {
-                newRunCaseLog.push({ title: `Run Case ${index + 1}`, content: () => (<ManageCase initialData={runCase} />), key: runCase.id.toString() })
+                // Validating that a corresponding id exists for the current case, otherwise skip and log the error
+                if (runCase.id != undefined) {
+                    newRunCaseLog.push({ title: `Run Case ${index + 1}`, content: () => (<ManageCase initialData={runCase as Required<IProblemRunCase>} type="run" />), key: runCase.id.toString() })
+                }
+                else {
+                    console.error("Run case id is null");
+                }
             });
         }
         newRunCaseLog.push(ADD_RUN_CASE_OPTION);
@@ -97,19 +120,17 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
     
     // Form handler/hook
     const { register, handleSubmit } = useForm<IProblem>();
-    
     // Action method to create/update probems from the form
     const action: SubmitHandler<IProblem> = (data: IProblem) => {
         // Call respective mutation
         switch (pageType) {
-            case ManageProblemPageType.CREATE:
+            case "create":
                 // Push new problem to database
                 createMutation.mutate(data);
                 break;
-            case ManageProblemPageType.UPDATE:
+            case "update":
                 // Push updates to problems to database
                 updateMutation.mutate(data);
-                console.log(updateMutation.data);
                 break;
             default:
                 throw "Invalid action type";
@@ -127,16 +148,21 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
                 <textarea {...register("description")} rows={2} className={`${inputBox} resize-none`} defaultValue={problemData.description} />
                 <label className={`${inputLabel}`}>Points Value</label>
                 <input {...register("points", { valueAsNumber: true })} type="number" className={`${inputBox}`} placeholder={"Points"} defaultValue={problemData.points} />
-                <input type="submit" className={`${button} ${primaryButton} uppercase w-full mt-5`} value={(pageType.valueOf() == ManageProblemPageType.CREATE) ? "Create" : "Update"} />
+                <input type="submit" className={`${button} ${primaryButton} uppercase w-full mt-5`} value={(pageType == "create") ? "Create" : "Update"} />
             </form>
             {/* Evaluation */}
-            { pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf() && 
+            { pageType == "update" && 
                 <>
                     <label className={`${inputSectionLabel} mt-7`}>Evaluation</label>
-                    <div className={`${inputLabel}`}>Run Cases</div>
-                    {getRunCases.isLoading && <LoadingUI size={35} /> }
-                    {getRunCases.isError && <div>Error occurred fetching the run cases</div>}
-                    {!getRunCases.isLoading && !getRunCases.isError && <VerticalTabbedMenu tabs={runCases} /> }
+                    {/* Run */}
+                    <div>
+                        <div className={`${inputLabel}`}>Run Cases</div>
+                        {getRunCases.isLoading && <LoadingUI size={35} />}
+                        {getRunCases.isError && <div>Error occurred fetching the run cases</div>}
+                        {!getRunCases.isLoading && !getRunCases.isError && <VerticalTabbedMenu tabs={runCases} />}
+                    </div>
+                    
+                    {/* Assess */}
                 </>
             }
             {/* Page/Problem Controls */}
@@ -145,21 +171,52 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
                     event.preventDefault();
                     ROUTER.replace("/admin/problems");
                 }}>Cancel</button>
-                {pageType.valueOf() == ManageProblemPageType.UPDATE.valueOf() && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
+                {pageType == "update" && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
             </div>
         </div>
     );
 }
 
-function ManageCase({ initialData }: { initialData: IProblemRunCase }) {
-    console.log(initialData);
+function ManageCase({ initialData, type }: { initialData: Required<IProblemRunCase>, type: "run" | "assess" }) {
+    // React Query client
+    const QUERYCLIENT = useQueryClient();
+
+    // Update case 
+    const { mutate } = useMutation({
+        mutationKey: [`update`, `case`, initialData.id],
+        mutationFn: async (updatedRunCase: IProblemRunCase) => {
+            const { status } = await axios.patch(`/data/admin/cases/run/${initialData.id}`, updatedRunCase);
+            console.log(status);
+        },
+        onSuccess: () => {
+            toast.success(`Successfully updated run case id:${initialData.id}`);
+        }
+    });
+
+    // Form for handling any changes to run cases
+    const { register, handleSubmit } = useForm<IProblemRunCase>();
+    // Save updates to case
+    const saveCaseChanges: SubmitHandler<IProblemRunCase> = (data: IProblemRunCase) => {
+        mutate(data);
+    }
 
     return (
-        <form className={`w-full`}>
-            <label>Input</label>
-            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} value={initialData.input}></textarea>
-            <label>Expected Output</label>
-            <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} value={initialData.input}></textarea>
-        </form>
+        <>
+            <div>{initialData.id}</div>
+            <form onSubmit={handleSubmit(saveCaseChanges)} className={`grid grid-flow-col grid-rows-1 grid-cols-2 w-full`}>
+                <div>
+                    <label>Input</label>
+                    <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} {...register("input")} defaultValue={initialData.input}></textarea>
+                </div>
+                <div>
+                    <label>Expected Output</label>
+                    <textarea className={`${inputBox} resize-none border-2 border-gray-400 w-full`} {...register("output")} defaultValue={initialData.output}></textarea>
+                </div>
+                <div>
+                    <input type="checkbox" {...register("hidden")} defaultChecked={initialData.hidden} />
+                </div>
+                <input type="submit" className={`cursor-pointer`} value={"Save Changes"} />
+            </form>
+        </>
     );
 }

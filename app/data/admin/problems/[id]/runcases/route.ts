@@ -1,5 +1,6 @@
 // PROBLEM RUN CASE API ROUTE //
 // ADMIN ONLY route that is dedicated to CRUD of run cases for a specific problem
+import { IProblemRunCase } from "@/app/types";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -24,7 +25,18 @@ export async function POST(request: Request, { params }: { params: { id: string 
     // Specified Problem ID
     const PROBLEM_ID: number = Number(params.id);
 
-    
+    // Get POST request body
+    const newRunCase: Omit<IProblemRunCase, "problem_id"> = await request.json() as Omit<IProblemRunCase, "problem_id">;
 
-    // Add new 
+    // Push new run case to the database
+    const runCase = await PRISMA.problem_run_case.create({
+        data: {
+            problem_id: PROBLEM_ID,
+            input: newRunCase.input,
+            output: newRunCase.output,
+            hidden: newRunCase.hidden,
+        }
+    }); 
+
+    return NextResponse.json({ new_run_case_id: runCase.id });
 }
