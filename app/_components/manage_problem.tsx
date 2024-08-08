@@ -4,7 +4,7 @@
 import { button, cancelButton, deleteButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { IProblem, IProblemRunCase, ITabbedMenuEntry } from "@/app/types";
+import { IProblem, IExecutionCase, ITabbedMenuEntry } from "@/app/types";
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -56,7 +56,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         queryKey: [`runcases`, `get`, `${problemId}`],
         queryFn: async () => {
             const { data } = await axios.get(`/data/admin/problems/${problemId}/runcases`);
-            return data as IProblemRunCase[];
+            return data as IExecutionCase[];
         },
         enabled: (pageType == "update") ? true : false,
         refetchOnWindowFocus: false,
@@ -67,7 +67,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         mutationFn: async () => {
             // Type check
             if (pageType == "update" && problemId != undefined) {
-                const newRunCase: Omit<IProblemRunCase, "problem_id"> = {
+                const newRunCase: Omit<IExecutionCase, "problem_id"> = {
                     input: "",
                     output: "",
                     hidden: false,
@@ -92,10 +92,10 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         let newRunCaseLog: ITabbedMenuEntry[] = [];
         // Iterate and convert from data to UI
         if (getRunCases.data != undefined) {
-            getRunCases.data.map((runCase: IProblemRunCase, index: number) => {
+            getRunCases.data.map((runCase: IExecutionCase, index: number) => {
                 // Validating that a corresponding id exists for the current case, otherwise skip and log the error
                 if (runCase.id != undefined) {
-                    newRunCaseLog.push({ title: `Run Case ${index + 1}`, content: () => (<ManageCase initialData={runCase as Required<IProblemRunCase>} type="run" />), key: runCase.id.toString() })
+                    newRunCaseLog.push({ title: `Run Case ${index + 1}`, content: () => (<ManageCase initialData={runCase as Required<IExecutionCase>} type="run" />), key: runCase.id.toString() })
                 }
                 else {
                     console.error("Run case id is null");
@@ -177,14 +177,14 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
     );
 }
 
-function ManageCase({ initialData, type }: { initialData: Required<IProblemRunCase>, type: "run" | "assess" }) {
+function ManageCase({ initialData, type }: { initialData: Required<IExecutionCase>, type: "run" | "assess" }) {
     // React Query client
     const QUERYCLIENT = useQueryClient();
 
     // Update case 
     const { mutate } = useMutation({
         mutationKey: [`update`, `case`, initialData.id],
-        mutationFn: async (updatedRunCase: IProblemRunCase) => {
+        mutationFn: async (updatedRunCase: IExecutionCase) => {
             const { status } = await axios.patch(`/data/admin/cases/run/${initialData.id}`, updatedRunCase);
             console.log(status);
         },
@@ -194,9 +194,9 @@ function ManageCase({ initialData, type }: { initialData: Required<IProblemRunCa
     });
 
     // Form for handling any changes to run cases
-    const { register, handleSubmit } = useForm<IProblemRunCase>();
+    const { register, handleSubmit } = useForm<IExecutionCase>();
     // Save updates to case
-    const saveCaseChanges: SubmitHandler<IProblemRunCase> = (data: IProblemRunCase) => {
+    const saveCaseChanges: SubmitHandler<IExecutionCase> = (data: IExecutionCase) => {
         mutate(data);
     }
 

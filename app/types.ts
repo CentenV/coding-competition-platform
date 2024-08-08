@@ -16,28 +16,30 @@ export interface ITabbedMenuEntry {
 }
 
 // Backend Data Formatting //
-// problems structure for client- partial data exposed
-// export interface IProblemPartial {
-//     id: number,
-// }t 
-// problems structure for management - full data exposed
+// problems
 export interface IProblem {
     id?: number,
     name: string,
     description: string,
     points: number,
 }
-// problem run case
-export interface IProblemRunCase {
+// execution case
+export interface IExecutionCase {
     id?: number,
-    problem_id: number,
     input: string,
     output: string,
     hidden: boolean
 }
+// problem execution xref/link
+export interface IProblemExecutionCase {
+    id?: number,
+    problem_id: number,
+    execution_case_id: number,
+    reltype: "RUN" | "ASSESS",
+    hidden: boolean
+}
 
 // API Response Formats //
-
 // Submissions
 export enum SubmissionLanguage {
     PYTHON
