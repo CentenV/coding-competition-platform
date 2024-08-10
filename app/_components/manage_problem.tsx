@@ -1,7 +1,7 @@
 // MANAGE PROBLEM COMPONENT //
 // provides the template that is used to create/edit problems
 "use client";
-import { button, cancelButton, deleteButton, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
+import { button, foreground, inputBox, inputLabel, inputSectionLabel, primaryButton } from "@/app/_components/globalstyle";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { IProblem, IExecutionCase, ITabbedMenuEntry } from "@/app/types";
@@ -9,9 +9,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
-import VerticalTabbedMenu from "@/app/_components/vertical_tabbed_menu";
 import toast from "react-hot-toast";
-import LoadingUI from "./loading_ui";
 
 export default function ManageProblem({ problemData, problemId, pageType }: { problemData: IProblem, problemId?: number, pageType: "create" | "update" }) {
     // Page type check
@@ -56,7 +54,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
             const { data } = await axios.get(`/data/admin/problems/${problemId}/runcases`);
             return data as IExecutionCase[];
         },
-        enabled: (pageType == "update") ? true : false,
+        enabled: (pageType == "update"),
         refetchOnWindowFocus: false,
         refetchOnMount: true
     });
@@ -90,7 +88,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         }
     }, [getRunCases, pageType]);
     // Assembly of run cases memoized
-    const assembleRunCases = useMemo(() => {
+    function assembleRunCases() {
         let newRunCaseLog: ITabbedMenuEntry[] = [];
         // Iterate and convert from data to UI
         if (getRunCases.data != undefined) {
@@ -106,7 +104,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         }
         newRunCaseLog.push(ADD_RUN_CASE_OPTION);
         updateRunCaseEntries(newRunCaseLog);
-    }, [getRunCases.data, ADD_RUN_CASE_OPTION])
+    }
     
     // Delete problem
     async function deleteProblem(event: React.MouseEvent<HTMLElement>) {
@@ -157,24 +155,24 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
                 <>
                     <label className={`${inputSectionLabel} mt-7`}>Evaluation</label>
                     {/* Run */}
-                    <div>
+                    {/* <div>
                         <div className={`${inputLabel}`}>Run Cases</div>
                         {getRunCases.isLoading && <LoadingUI size={35} />}
                         {getRunCases.isError && <div>Error occurred fetching the run cases</div>}
                         {!getRunCases.isLoading && !getRunCases.isError && <VerticalTabbedMenu tabs={runCases} />}
                     </div>
-                    
+                     */}
                     {/* Assess */}
                 </>
             }
             {/* Page/Problem Controls */}
-            <div className={`flex flex-row gap-4 mt-8 w-full`}>
+            {/* <div className={`flex flex-row gap-4 mt-8 w-full`}>
                 <button className={`${button} ${cancelButton} uppercase w-full`} onClick={(event: React.MouseEvent<HTMLElement>) => {
                     event.preventDefault();
                     ROUTER.replace("/admin/problems");
                 }}>Cancel</button>
                 {pageType == "update" && <button className={`${button} ${deleteButton} uppercase w-full`} onClick={deleteProblem} >Delete</button>}
-            </div>
+            </div> */}
         </div>
     );
 }
