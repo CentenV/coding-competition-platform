@@ -31,7 +31,7 @@ export async function GET(request: Request, { params }: { params: { caseId: stri
         if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") {
             return NextResponse.json({ message: "No execution case entry was found for id=" + EXEC_CASE_ID }, { status: 404 });
         }
-        return NextResponse.json({ message: "Failed to fetch execution case id=" + EXEC_CASE_ID }, { status: 400 });
+        return NextResponse.json({ message: "Failed to fetch execution case id=" + EXEC_CASE_ID }, { status: 500 });
     }
 }
 
@@ -61,7 +61,7 @@ export async function PATCH(request: Request, { params }: { params: { caseId: st
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to update execution case id=" + EXEC_CASE_ID }, { status: 400 });
+        return NextResponse.json({ message: "Failed to update execution case id=" + EXEC_CASE_ID }, { status: 500 });
     }
 }
 
@@ -85,6 +85,6 @@ export async function DELETE(request: Request, { params }: { params: { caseId: s
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to delete execution case id=" + EXEC_CASE_ID }, { status: 400 });
+        return NextResponse.json({ message: "Failed to delete execution case id=" + EXEC_CASE_ID }, { status: 500 });
     }
 }

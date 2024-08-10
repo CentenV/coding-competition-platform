@@ -7,8 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 const PRISMA = new PrismaClient();
 
-
-
 /**
  * Updates the problem execution case link/xref metadata (ONLY MAKES CHANGES to columns: reltype, hidden)
  * 
@@ -34,7 +32,7 @@ export async function PATCH(request: Request, { params }: { params: { linkId: st
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to update problem execution case for problem id=" + LINK_ID }, { status: 400 });
+        return NextResponse.json({ message: "Failed to update problem execution case for problem id=" + LINK_ID }, { status: 500 });
     }
 }
 
@@ -57,6 +55,6 @@ export async function DELETE(request: Request, { params }: { params: { linkId: s
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to delete problem execution case link/xref id=" + LINK_ID }, { status: 400 });
+        return NextResponse.json({ message: "Failed to delete problem execution case link/xref id=" + LINK_ID }, { status: 500 });
     }
 }

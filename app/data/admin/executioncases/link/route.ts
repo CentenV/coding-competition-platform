@@ -36,7 +36,11 @@ export async function GET(request: NextRequest) {
             queryObj.problem_id = convertToId(PROBLEM_ID);
         }
         // Run case or assess case exclusion filter provided (default run and assess displayed)
-        if (ONLY_RUN_CASE != null && ONLY_ASSESS_CASE != null) {
+        if (ONLY_RUN_CASE == null && ONLY_ASSESS_CASE == null) {
+            delete queryObj.reltype;
+            delete queryObj.AND;
+        }
+        else if (ONLY_RUN_CASE != null && ONLY_ASSESS_CASE != null) {
             return NextResponse.json({ message: "Invalid filters provided in the query parameters" }, { status: 400 });
         }
         else if (ONLY_RUN_CASE != null) {
@@ -53,7 +57,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(problemExecutionCases, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: `Failed to fetch problem execution case link(s), {problemId: ${PROBLEM_ID}, only_run_case: ${ONLY_RUN_CASE}, only_assess_case: ${ONLY_ASSESS_CASE}}` }, { status: 400 });
+        return NextResponse.json({ message: `Failed to fetch problem execution case link(s), {problemId: ${PROBLEM_ID}, only_run_case: ${ONLY_RUN_CASE}, only_assess_case: ${ONLY_ASSESS_CASE}}` }, { status: 404 });
     }
 }
 
@@ -78,6 +82,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ id: problemExecutionCase.id }, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to create problem execution case" }, { status: 400 });
+        return NextResponse.json({ message: "Failed to create problem execution case" }, { status: 500 });
     }
 }

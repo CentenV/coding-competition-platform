@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(executionCases);
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to fetch all execution cases" }, { status: 400 });
+        return NextResponse.json({ message: "Failed to fetch all execution cases", error: err }, { status: 500 });
     }
 }
 
@@ -74,6 +74,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ id: execCase.id });
     }
     catch (err) {
-        return NextResponse.json({ message: "Failed to create execution case" }, { status: 400 });
+        return NextResponse.json({ message: "Failed to create execution case", error: err }, { status: 500 });
     }
 }

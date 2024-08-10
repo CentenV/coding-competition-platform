@@ -8,17 +8,20 @@ const PRISMA: PrismaClient = new PrismaClient();
 
 // Create new problem
 export async function POST(request: Request) {
-    // Get POST request body
-    let newProblem: IProblem = await request.json();
-
-    // Push to database
-    const problem = await PRISMA.problem.create({
-        data: {
-            name: newProblem.name,
-            description: newProblem.description,
-            points: newProblem.points,
-        }
-    });
-
-    return NextResponse.json({ new_problem_id: problem.id });
+    try {
+        // Get POST request body
+        let newProblem: IProblem = await request.json();
+        // Push to database
+        const problem = await PRISMA.problem.create({
+            data: {
+                name: newProblem.name,
+                description: newProblem.description,
+                points: newProblem.points,
+            }
+        });
+        return NextResponse.json({ id: problem.id });
+    }
+    catch (err) {
+        return NextResponse.json({ message: "Failed to create new problem", error: err }, { status: 500 });
+    }
 }
