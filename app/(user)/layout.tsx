@@ -1,7 +1,7 @@
 // USER-SIDE LAYOUT //
 // user zone general page layout
 import { ProblemsIcon, SandboxIcon } from "../_components/globalstyle";
-import { IMenuOption } from "../_components/menu_option";
+import { IMenuOption } from "@/app/types";
 import UniversalLayout from "../_components/universal_layout";
 
 // All menu options

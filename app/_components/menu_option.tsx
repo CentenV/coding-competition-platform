@@ -2,7 +2,7 @@
 // 
 "use client";
 import { useRouter } from 'next/navigation'
-import { ProblemsIcon, button, menuButton } from "./globalstyle";
+import { button, menuButton } from "./globalstyle";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { IMenuOption } from '../types';
 

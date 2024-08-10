@@ -4,7 +4,7 @@
 import { foreground } from "@/app/_components/globalstyle";
 import Header from "@/app/_components/header";
 import { IProblem } from "@/app/types";
-import ManageProblem, { ManageProblemPageType } from "@/app/_components/manage_problem";
+import ManageProblem from "@/app/_components/manage_problem";
 import HeaderedContent from "@/app/_components/headered_content";
 
 // Page Component
@@ -21,7 +21,7 @@ export default function CreateNewProblem() {
 
     return (
         <HeaderedContent header={PAGE_TITLE}>
-            <ManageProblem pageType={ManageProblemPageType.CREATE} problemData={initialProblemData} />
+            <ManageProblem pageType={"create"} problemData={initialProblemData} />
         </HeaderedContent>
     );
 }

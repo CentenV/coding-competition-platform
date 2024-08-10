@@ -21,8 +21,7 @@ export default function ExecutionCasesPage() {
             {data != undefined ? data.forEach((currentExecCase) => {
                 console.log(currentExecCase);
                 return (<div>
-                    {/* <span>{currentExecCase.id}</span> */}
-                    <div>{currentExecCase.problem_id}</div>
+                    <span>{currentExecCase.id}</span>
                     <div>{currentExecCase.input}</div>
                     <div>{currentExecCase.output}</div>
                     <div>{currentExecCase.hidden}</div>

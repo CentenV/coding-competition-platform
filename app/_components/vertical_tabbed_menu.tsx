@@ -22,7 +22,7 @@ export default function VerticalTabbedMenu({ tabs }: { tabs: ITabbedMenuEntry[] 
         else {
             return <></>;
         }
-    }, [activeTab]);
+    }, [tabs, activeTab]);
 
     return (
         <div className={`grid grid-rows-[2fr] grid-cols-[30%_69%] gap-4 ${foregroundAlternate} h-64`}>

@@ -49,9 +49,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         mutationFn: async () => { await axios.delete(`/data/admin/problems/${problemData.id}`); }
     });
     
-    // Fetching all the test and run cases for the problem
-    const ADD_RUN_CASE_OPTION: ITabbedMenuEntry = { title: "Add Run Case", content: () => (<></>), key: "New", onTabClick: () => { createRunCase.mutate(); } };
-    const [runCases, updateRunCaseEntries] = useState<ITabbedMenuEntry[]>([ADD_RUN_CASE_OPTION]);
+    // Fetching all the run and test cases for the problem
     const getRunCases = useQuery({ 
         queryKey: [`runcases`, `get`, `${problemId}`],
         queryFn: async () => {
@@ -81,12 +79,16 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
             toast.success("New run case added");
         }
     });
+    const ADD_RUN_CASE_OPTION = useMemo(() => {
+        return { title: "Add Run Case", content: () => (<></>), key: "New", onTabClick: () => { createRunCase.mutate(); } }
+    }, [createRunCase]);
+    const [runCases, updateRunCaseEntries] = useState<ITabbedMenuEntry[]>([ADD_RUN_CASE_OPTION]);
     // Fetching if page is of the update type
     useEffect(() => {
         if (pageType == "update") {
             getRunCases.refetch();
         }
-    }, []);
+    }, [getRunCases, pageType]);
     // Assembly of run cases memoized
     const assembleRunCases = useMemo(() => {
         let newRunCaseLog: ITabbedMenuEntry[] = [];
@@ -104,7 +106,7 @@ export default function ManageProblem({ problemData, problemId, pageType }: { pr
         }
         newRunCaseLog.push(ADD_RUN_CASE_OPTION);
         updateRunCaseEntries(newRunCaseLog);
-    }, [getRunCases.data])
+    }, [getRunCases.data, ADD_RUN_CASE_OPTION])
     
     // Delete problem
     async function deleteProblem(event: React.MouseEvent<HTMLElement>) {
