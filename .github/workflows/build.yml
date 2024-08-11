@@ -1,5 +1,5 @@
 # Runs next build on the project to verify that project successfully builds
-name: Build coding-competition-platform
+name: Build
 
 on:
   push:
@@ -7,13 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ["ubuntu-latest"]
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/competition-platform?schema=public"
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -23,4 +22,3 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
-    # - run: npm test
