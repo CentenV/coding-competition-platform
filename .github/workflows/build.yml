@@ -7,9 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: ["ubuntu-latest", "windows-latest"]
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: ["ubuntu-latest", "windows-latest"]
         node-version: [18.x, 20.x, 22.x]
     env:
       DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/competition-platform?schema=public"
