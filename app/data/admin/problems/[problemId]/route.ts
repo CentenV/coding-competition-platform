@@ -8,11 +8,11 @@ import { NextResponse } from "next/server";
 const PRISMA: PrismaClient = new PrismaClient();
 
 // Update problem data
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-    const PARAMS_ID = params.id;
+export async function PATCH(request: Request, { params }: { params: { problemId: string } }) {
+    const PARAMS_PROBLEM_ID = params.problemId;
     try {
         // Specified Problem ID
-        const problemId = convertToId(PARAMS_ID);
+        const problemId = convertToId(PARAMS_PROBLEM_ID);
         // Get PATCH request body
         let newProblem: IProblem = await request.json();
         // Push to database
@@ -29,16 +29,16 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: `Failed to update problem id=${PARAMS_ID}`, error: err }, { status: 500 });
+        return NextResponse.json({ message: `Failed to update problem id=${PARAMS_PROBLEM_ID}`, error: err }, { status: 500 });
     }
 }
 
 // Delete problem
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-    const PARAMS_ID = params.id;
+export async function DELETE(request: Request, { params }: { params: { problemId: string } }) {
+    const PARAMS_PROBLEM_ID = params.problemId;
     try {
         // Specified Problem ID
-        const problemId = convertToId(PARAMS_ID);
+        const problemId = convertToId(PARAMS_PROBLEM_ID);
         // Delete in database
         const deleteProblem = await PRISMA.problem.delete({
             where: {
@@ -48,6 +48,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
         return NextResponse.json({}, { status: 200 });
     }
     catch (err) {
-        return NextResponse.json({ message: `Failed to delete problem id=${PARAMS_ID}`, error: err }, { status: 500 });
+        return NextResponse.json({ message: `Failed to delete problem id=${PARAMS_PROBLEM_ID}`, error: err }, { status: 500 });
     }
 }

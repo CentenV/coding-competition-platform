@@ -5,13 +5,22 @@ import { NextResponse } from "next/server";
 
 const PRISMA: PrismaClient = new PrismaClient();
 
-// Get all problems
+/**
+ * Get all problems
+ * 
+ * @returns Array of the objects of all problems
+ */
 export async function GET() {
-    // Get all problems from database
-    let problems = await PRISMA.problem.findMany({
-        orderBy: {
-            id: "asc"
-        }
-    });
-    return NextResponse.json(problems);
+    try {
+        // Get all problems from database
+        let problems = await PRISMA.problem.findMany({
+            orderBy: {
+                id: "asc"
+            }
+        });
+        return NextResponse.json(problems, { status: 200 });
+    }
+    catch (err) {
+        return NextResponse.json({ message: "Failed to fetch problems(s)", error: err }, { status: 404 });
+    }
 }
