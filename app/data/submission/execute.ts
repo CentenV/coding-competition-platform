@@ -3,6 +3,7 @@
 import { ExecException } from "child_process";
 import { env } from "process";
 import * as fs from "fs";
+import path from "path";
 const execSync = require("child_process").execSync;
 
 // Enum used for classifying program languages submitted
@@ -23,7 +24,8 @@ export abstract class Execute {
         this.codeLanguage = codeLang;
 
         // Create code file
-        this.codeFilePath = `${env.COMPETITION_SERVICE_DIR}/rawcode/test.py`;
+        this.codeFilePath = path.resolve(`${env.COMPETITION_SERVICE_DIR}/rawcode/test.py`);
+        console.log("Code File: " + this.codeFilePath);
         fs.writeFileSync(this.codeFilePath, code);
     }
 
@@ -38,7 +40,8 @@ export class PythonExecute extends Execute {
 
     public run(): string {
         // Output file path
-        this.outputFilePath = `${env.COMPETITION_SERVICE_DIR}/outputs/output.txt`;
+        this.outputFilePath = path.resolve(`${env.COMPETITION_SERVICE_DIR}/outputs/output.txt`);
+        console.log("Output path: " + this.outputFilePath);
 
         // Execute docker run creating a container and executing code. Outputs code output result to file
         let output: string = "";

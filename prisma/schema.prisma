@@ -68,6 +68,14 @@ model team {
   competitor         competitor[]
 }
 
+model submission {
+  id        String  @id @db.Uuid
+  userid    Int
+  problemid Int
+  code      String
+  output    String?
+}
+
 enum case_type {
   RUN
   ASSESS

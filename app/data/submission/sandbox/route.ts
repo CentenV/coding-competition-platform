@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     const requestBody: ISandboxSubmissionRequest = await request.json() as ISandboxSubmissionRequest;
 
     // Run code in Docker
+    console.log(requestBody.language);
     const language: SubmissionLanguage = requestBody.language;  // TODO: individual language
     const code: string = requestBody.code;
 

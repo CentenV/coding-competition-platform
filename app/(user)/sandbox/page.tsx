@@ -3,7 +3,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { button, foregroundAlternate } from "@/app/_components/globalstyle";
-import LoadingUI from "@/app/_components/loading_ui";
 import { Editor, Monaco } from "@monaco-editor/react";
 import Header from "@/app/_components/header";
 import { useMutation } from "@tanstack/react-query";
