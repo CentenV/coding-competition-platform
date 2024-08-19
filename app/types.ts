@@ -45,7 +45,7 @@ export enum SubmissionLanguage {
     PYTHON
 }
 export enum CodeCaseSubmissionType {
-    RUN, TEST
+    RUN, ASSESS
 }
 // general code (no problem associated)
 export interface ISandboxSubmissionRequest {
@@ -61,10 +61,13 @@ export interface IProblemSubmissionRequest {
     code: string,
     language: SubmissionLanguage,
 }
-export interface IProblemSubmissionResponse {
+export interface IProblemSubmissionIndividualResponse {
     pass: boolean,
     expected: string | null,
     actual: string | null,
-    hidden: boolean,
     type: CodeCaseSubmissionType,
 }
+export type IProblemSubmissionResponse = IProblemSubmissionIndividualResponse[];
+
+// Code execution suite
+export class ExecuteError extends Error {}

@@ -1,38 +1,51 @@
 // EXECUTION OF CODE IN DOCKER CONTAINERS //
 // utility functions used to execute the user submitted code
-import { ExecException } from "child_process";
-import { env } from "process";
-import * as fs from "fs";
 import path from "path";
 const execSync = require("child_process").execSync;
+import { writeFileSync } from "fs";
+import { ExecuteError } from "../../types";
+import { getNamingTime } from "./timenaming";
 
 // Enum used for classifying program languages submitted
 export enum Language {
     Python
 }
 
-// Abstract class from which all child classes (different languages) implement
+/**
+ * Abstract class from which all child classes (different languages) implement
+ */
 export abstract class Execute {
     protected codeFileName: string;
     private codeLanguage: Language;
     protected codeFilePath: string;
     protected outputFilePath: string;
 
+    /**
+     * Initialize the Execute object 
+     * @param fileName The file name of the code file on disk. File extension is appended according to the language specified
+     * @param codeLang 
+     * @param code 
+     */
     constructor(fileName: string, codeLang: Language, code: string) {
         this.codeFileName = fileName;
         this.outputFilePath = "";
         this.codeLanguage = codeLang;
 
-        // Create code file
-        this.codeFilePath = path.resolve(`${env.COMPETITION_SERVICE_DIR}/rawcode/test.py`);
+        // Validating directory
+        // if (env.COMPETITION_SERVICE_DIR == undefined) { throw new ExecuteError(); }
+
+        // Create and print out to code file
+        // this.codeFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${fileName}.py`);
+        this.codeFilePath = `${process.env.COMPETITION_SERVICE_DIR}/rawcode/${fileName}.py`;
         console.log("Code File: " + this.codeFilePath);
-        fs.writeFileSync(this.codeFilePath, code);
+        writeFileSync(this.codeFilePath, code);
     }
 
     public abstract run(): string;
 }
 
 
+// Python
 export class PythonExecute extends Execute {
     constructor(fileName: string, code: string) {
         super(fileName, Language.Python, code);
@@ -40,7 +53,7 @@ export class PythonExecute extends Execute {
 
     public run(): string {
         // Output file path
-        this.outputFilePath = path.resolve(`${env.COMPETITION_SERVICE_DIR}/outputs/output.txt`);
+        this.outputFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/outputs/output.txt`);
         console.log("Output path: " + this.outputFilePath);
 
         // Execute docker run creating a container and executing code. Outputs code output result to file
@@ -58,9 +71,14 @@ export class PythonExecute extends Execute {
         }
 
         // Output code to file for later reference
-        fs.writeFileSync(this.outputFilePath, output);
+        writeFileSync(this.outputFilePath, output);
         
         // Return output
         return output;
     }
+}
+
+
+export async function runMultipleExecutes(tasks: Execute[]) {
+
 }

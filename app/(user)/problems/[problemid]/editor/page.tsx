@@ -2,7 +2,7 @@
 // user page that contains the embedded editor, run, output results
 "use client";
 import { LeftArrowIcon, button, divider, foreground, foregroundAlternate, header, subHeader } from "@/app/_components/globalstyle";
-import { IProblemSubmissionResponse, IProblem, IProblemSubmissionRequest, SubmissionLanguage } from "@/app/types";
+import { IProblemSubmissionIndividualResponse, IProblem, IProblemSubmissionRequest, SubmissionLanguage } from "@/app/types";
 import LoadingUI from "@/app/_components/loading_ui";
 import { Editor } from "@monaco-editor/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -45,7 +45,7 @@ export default function IndividualProblemEditor({ params } : { params: { problem
                 language: SubmissionLanguage.PYTHON,
             };
             // Query submitting code to the server for execution
-            const { data } = await axios.post<IProblemSubmissionResponse[]>(`/data/submission/${PROBLEM_ID}`, formattedData);
+            const { data } = await axios.post<IProblemSubmissionIndividualResponse[]>(`/data/submission/${PROBLEM_ID}`, formattedData);
             console.log(data);
             return data;
         }

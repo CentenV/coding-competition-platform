@@ -2,16 +2,16 @@
 // displays the run/test cases when the code is run and returned from the server
 "use client";
 import { LeftArrowIcon, RightArrowIcon } from "@/app/_components/globalstyle";
-import { IProblemSubmissionResponse, ITabbedMenuEntry } from "@/app/types";
+import { IProblemSubmissionIndividualResponse, ITabbedMenuEntry } from "@/app/types";
 import React, { useState } from "react";
 
-export default function CodeCases({ cases }: { cases: IProblemSubmissionResponse[] }) {
+export default function CodeCases({ cases }: { cases: IProblemSubmissionIndividualResponse[] }) {
     const [currentViewingCase, updateCurrentViewingCase] = useState<number | null>(null);
 
     return (
         (currentViewingCase == null) ? 
         (<div className="w-full">
-            {cases.map((currentCase: IProblemSubmissionResponse, index: number) => {
+            {cases.map((currentCase: IProblemSubmissionIndividualResponse, index: number) => {
                 // Set colors
                 const COLOR: string = (currentCase.pass) ? "green-600" : "red-600";
                 const TEXT_COLOR: string = `text-${COLOR}`;
@@ -32,7 +32,7 @@ export default function CodeCases({ cases }: { cases: IProblemSubmissionResponse
     );
 }
 
-function SpecificCase({ individualCase }: { individualCase: IProblemSubmissionResponse }) {
+function SpecificCase({ individualCase }: { individualCase: IProblemSubmissionIndividualResponse }) {
     return (
         <div>
             <div>Expected Output</div>
