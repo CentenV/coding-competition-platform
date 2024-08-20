@@ -70,14 +70,21 @@ model team {
 }
 
 model submission {
-  id        String  @id @db.Uuid
-  userid    Int
-  problemid Int
-  code      String
-  output    String?
+  id              String  @id @db.Uuid
+  userid          Int
+  problemid       Int
+  code_file       String
+  output_file     String
+  status          submission_status
 }
 
 enum case_type {
   RUN
   ASSESS
+}
+
+enum submission_status {
+  COMPLETED
+  IN_PROGRESS
+  ERROR
 }

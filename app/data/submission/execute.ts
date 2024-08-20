@@ -1,10 +1,11 @@
 // EXECUTION OF CODE IN DOCKER CONTAINERS //
 // utility functions used to execute the user submitted code
+require('dotenv').config();
 import path from "path";
 const execSync = require("child_process").execSync;
 import { writeFileSync } from "fs";
-import { ExecuteError } from "../../types";
-import { getNamingTime } from "./timenaming";
+import { ExecuteError } from "@/app/types";
+import { getNamingTime } from "@/app/data/submission/timenaming";
 
 // Enum used for classifying program languages submitted
 export enum Language {
@@ -15,7 +16,7 @@ export enum Language {
  * Abstract class from which all child classes (different languages) implement
  */
 export abstract class Execute {
-    protected codeFileName: string;
+    protected fileName: string;
     private codeLanguage: Language;
     protected codeFilePath: string;
     protected outputFilePath: string;
@@ -27,17 +28,13 @@ export abstract class Execute {
      * @param code 
      */
     constructor(fileName: string, codeLang: Language, code: string) {
-        this.codeFileName = fileName;
+        this.fileName = fileName;
         this.outputFilePath = "";
         this.codeLanguage = codeLang;
 
-        // Validating directory
-        // if (env.COMPETITION_SERVICE_DIR == undefined) { throw new ExecuteError(); }
-
         // Create and print out to code file
-        // this.codeFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${fileName}.py`);
-        this.codeFilePath = `${process.env.COMPETITION_SERVICE_DIR}/rawcode/${fileName}.py`;
-        console.log("Code File: " + this.codeFilePath);
+        this.codeFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${this.fileName}.py`);
+        // console.log("Code File: " + this.codeFilePath);
         writeFileSync(this.codeFilePath, code);
     }
 
@@ -53,13 +50,13 @@ export class PythonExecute extends Execute {
 
     public run(): string {
         // Output file path
-        this.outputFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/outputs/output.txt`);
-        console.log("Output path: " + this.outputFilePath);
+        this.outputFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/outputs/${this.fileName}.txt`);
+        // console.log("Output path: " + this.outputFilePath);
 
         // Execute docker run creating a container and executing code. Outputs code output result to file
         let output: string = "";
         try {
-            output = execSync(`docker run -v ${this.codeFilePath}:/exec/test.py pythontest`, { stdio: "pipe", encoding: "utf8" });
+            output = execSync(`docker run -v ${this.codeFilePath}:/exec/prog.py ccp-python`, { stdio: "pipe", encoding: "utf8" });
         }
         catch (error) {
             if (error != undefined) {
