@@ -28,7 +28,6 @@ export interface IExecutionCase {
     id?: number,
     input: string,
     output: string,
-    hidden: boolean
 }
 // problem execution xref/link
 export interface IProblemExecutionCase {
@@ -44,7 +43,7 @@ export interface IProblemExecutionCase {
 export enum SubmissionLanguage {
     PYTHON
 }
-export enum CodeCaseSubmissionType {
+export enum ExecutionCaseType {
     RUN, ASSESS
 }
 // general code (no problem associated)
@@ -65,9 +64,25 @@ export interface IProblemSubmissionIndividualResponse {
     pass: boolean,
     expected: string | null,
     actual: string | null,
-    type: CodeCaseSubmissionType,
+    type: ExecutionCaseType,
 }
-export type IProblemSubmissionResponse = IProblemSubmissionIndividualResponse[];
+export type ProblemSubmissionResponse = IProblemSubmissionIndividualResponse[];
 
-// Code execution suite
+// Code execution suite //
+/**
+ * Execution error for throwing every time there is an issue with the code execution suite
+ */
 export class ExecuteError extends Error {}
+/**
+ * Structure for 
+ */
+export interface ICaseGradingResult {
+    pass: boolean,
+    hidden: boolean,
+    type: ExecutionCaseType,
+}
+export interface ICaseGradingResultShown extends ICaseGradingResult {
+    actualOutput?: string,
+    expectedOutput?: string,
+}
+export type ProblemGradingResult = ICaseGradingResult[] | ICaseGradingResultShown[];
