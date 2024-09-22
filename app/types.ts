@@ -40,6 +40,9 @@ export interface IProblemExecutionCase {
 
 // API Response Formats //
 // Submissions
+export interface ISubmissionTicket {
+    
+}
 export enum SubmissionLanguage {
     PYTHON
 }
