@@ -2,7 +2,7 @@
 // USER API route for fetching all or one specific problem (surface level data only)
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import { convertToId } from "../validation";
+import { convertToId } from "../../validation";
 
 const PRISMA: PrismaClient = new PrismaClient();
 const router = Router();
