@@ -8,9 +8,14 @@
       "ESNext"
     ],
     "isolatedModules": false,
-    "noEmit": false
+    "noEmit": false,
+    "paths": {
+      "@server/*": [
+        "./server/*"
+      ]
+    }
   },
   "include": [
-    "server/server.ts"
+    "./server/*"
   ]
 }

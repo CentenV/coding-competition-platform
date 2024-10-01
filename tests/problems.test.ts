@@ -1,6 +1,9 @@
 // PROBLEMS CRUD TEST //
 import axios from "axios";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import "dotenv/config"
+
+const SERVER_URL = `http://localhost:${process.env.PORT}/api`;
 
 describe("Problems", () => {
     // errorless, successful api tests
@@ -14,10 +17,10 @@ describe("Problems", () => {
 
         let problemId: undefined | number = undefined;
         test("create", async () => {
-            const createNewProblem = await axios.post("http://localhost:3000/data/admin/problems", NEW_PROBLEM);
+            const createNewProblem = await axios.post(`${SERVER_URL}/admin/problems`, NEW_PROBLEM);
             expect(createNewProblem.data).toMatchObject({ id: expect.any(Number) });
             problemId = createNewProblem.data.id;
-            const fetchNewProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const fetchNewProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(fetchNewProblem.data).toMatchObject({ id: problemId, ...NEW_PROBLEM })
         });
         test("update", async () => {
@@ -27,14 +30,14 @@ describe("Problems", () => {
                 description: `Description of Test Problem ${CURRENT_TIME} updated_${UPDATE_TIME}`,
                 points: 101
             }
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const getUpdatedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const getUpdatedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(getUpdatedProblem.data).toMatchObject({ id: problemId, ...UPDATED_PROBLEM });
         });
         test("delete", async () => {
             expect(problemId).toBeDefined();
-            const deleteProblem = await axios.delete(`http://localhost:3000/data/admin/problems/${problemId}`);
-            const getDeletedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`, { validateStatus: () => true });
+            const deleteProblem = await axios.delete(`${SERVER_URL}/admin/problems/${problemId}`);
+            const getDeletedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`, { validateStatus: () => true });
             expect(getDeletedProblem.status).toBe(404);
             expect(getDeletedProblem.data).toMatchObject({ message: `Failed to fetch problems id=${problemId}` })
         });
@@ -44,11 +47,11 @@ describe("Problems", () => {
     describe("create - malformed payload", () => {
         const CURRENT_TIME = Date.now();
         async function noProblemCreated(newExecCaseData: Object) {
-            const initialListOfAllProblems = await axios.get("http://localhost:3000/data/problems");
-            const createNewProblem = await axios.post("http://localhost:3000/data/admin/problems", newExecCaseData, { validateStatus: () => true });
+            const initialListOfAllProblems = await axios.get(`${SERVER_URL}/problems`);
+            const createNewProblem = await axios.post(`${SERVER_URL}/admin/problems`, newExecCaseData, { validateStatus: () => true });
             expect(createNewProblem.status).toBe(500);
             expect(createNewProblem.data).toHaveProperty("message", "Failed to create new problem");
-            const postPostListOfAllProblems = await axios.get(`http://localhost:3000/data/problems`);
+            const postPostListOfAllProblems = await axios.get(`${SERVER_URL}/problems`);
             expect(postPostListOfAllProblems.data).toMatchObject(initialListOfAllProblems.data);
         }
 
@@ -86,10 +89,10 @@ describe("Problems", () => {
                 extra_prop: "HELLO WORLD THIS IS WRITTEN ON 8/10/2024",
                 problem_count: 10
             };
-            const createNewProblem = await axios.post("http://localhost:3000/data/admin/problems", NEW_PROBLEM);
+            const createNewProblem = await axios.post(`${SERVER_URL}/admin/problems`, NEW_PROBLEM);
             execCaseId = createNewProblem.data.id;
             expect(createNewProblem.data).toMatchObject({ id: expect.any(Number) });
-            const cleanUpCreatedProblem = await axios.delete(`http://localhost:3000/data/admin/problems/${execCaseId}`);
+            const cleanUpCreatedProblem = await axios.delete(`${SERVER_URL}/admin/problems/${execCaseId}`);
         });
     });
 
@@ -103,12 +106,12 @@ describe("Problems", () => {
         let problemId: undefined | number = undefined;
         // Spin up proper entries
         beforeEach(async () => {
-            const createProblem = await axios.post("http://localhost:3000/data/admin/problems", NEW_PROBLEM);
+            const createProblem = await axios.post(`${SERVER_URL}/admin/problems`, NEW_PROBLEM);
             problemId = createProblem.data.id;
         });
         // Delete proper entries
         afterEach(async () => {
-            const deleteNewProblem = await axios.delete(`http://localhost:3000/data/admin/problems/${problemId}`);
+            const deleteNewProblem = await axios.delete(`${SERVER_URL}/admin/problems/${problemId}`);
             problemId = undefined;
         });
 
@@ -117,8 +120,8 @@ describe("Problems", () => {
             const UPDATED_PROBLEM = {
                 name: `Test Problem ${CURRENT_TIME} updated_${UPDATE_TIME}`
             };
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const getUpdatedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const getUpdatedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(getUpdatedProblem.data).toMatchObject({ id: problemId, name: UPDATED_PROBLEM.name, description: NEW_PROBLEM.description, points: NEW_PROBLEM.points });
         });
         test("missing prop 2", async () => {
@@ -126,8 +129,8 @@ describe("Problems", () => {
             const UPDATED_PROBLEM = {
                 description: `Description of Test Problem ${CURRENT_TIME} updated_${UPDATE_TIME}`,
             };
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const getUpdatedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const getUpdatedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(getUpdatedProblem.data).toMatchObject({ id: problemId, name: NEW_PROBLEM.name, description: UPDATED_PROBLEM.description, points: NEW_PROBLEM.points });
         });
         test("missing prop 3", async () => {
@@ -135,8 +138,8 @@ describe("Problems", () => {
             const UPDATED_PROBLEM = {
                 points: Math.floor(UPDATE_TIME / 1000000),
             };
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const getUpdatedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const getUpdatedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(getUpdatedProblem.data).toMatchObject({ id: problemId, name: NEW_PROBLEM.name, description: NEW_PROBLEM.description, points: UPDATED_PROBLEM.points });
         });
         test("missing necessary props", async () => {
@@ -144,9 +147,9 @@ describe("Problems", () => {
                 extra_prop: "HELLO WORLD THIS IS WRITTEN ON 8/10/2024",
                 problem_count: 10
             };
-            const initialProblemList = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const postPatchProblemList = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const initialProblemList = await axios.get(`${SERVER_URL}/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const postPatchProblemList = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(postPatchProblemList.data).toMatchObject(initialProblemList.data);
         });
         test("extra data", async () => {
@@ -158,17 +161,17 @@ describe("Problems", () => {
                 extra_prop: "HELLO WORLD THIS IS WRITTEN ON 8/10/2024",
                 problem_count: 10
             };
-            const updateProblem = await axios.patch(`http://localhost:3000/data/admin/problems/${problemId}`, UPDATED_PROBLEM);
-            const getUpdatedProblem = await axios.get(`http://localhost:3000/data/problems/${problemId}`);
+            const updateProblem = await axios.patch(`${SERVER_URL}/admin/problems/${problemId}`, UPDATED_PROBLEM);
+            const getUpdatedProblem = await axios.get(`${SERVER_URL}/problems/${problemId}`);
             expect(getUpdatedProblem.data).toMatchObject({ id: problemId, name: UPDATED_PROBLEM.name, description: UPDATED_PROBLEM.description, points: UPDATED_PROBLEM.points })
         });
     });
 
     test("delete - no problem exists", async () => {
-        const initialProblemList = await axios.get(`http://localhost:3000/data/problems`);
-        const deleteProblem = await axios.delete(`http://localhost:3000/data/admin/problems/-1`, { validateStatus: () => true });
+        const initialProblemList = await axios.get(`${SERVER_URL}/problems`);
+        const deleteProblem = await axios.delete(`${SERVER_URL}/admin/problems/-1`, { validateStatus: () => true });
         expect(deleteProblem.status).toBe(500);
-        const postPatchProblemList = await axios.get(`http://localhost:3000/data/problems`);
+        const postPatchProblemList = await axios.get(`${SERVER_URL}/problems`);
         expect(postPatchProblemList.data).toMatchObject(initialProblemList.data);
     });
 });
