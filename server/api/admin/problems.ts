@@ -1,4 +1,4 @@
-// PROBLEM ADMINISTRATOR API ROUTE //
+// PROBLEM ADMIN API ROUTE //
 // ADMIN ONLY API Route used for the modification of problems
 import { IProblem } from "@/app/types";
 import { convertToId } from "../../validation";

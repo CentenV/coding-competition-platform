@@ -33,10 +33,10 @@ router.get("/", async (req, res) => {
  * @returns Specific problem and its data
  */
 router.get("/:problemId", async (req, res) => {
-    let PARAMS_PROBLEMID = req.params.problemId;
+    const PARAMS_PROBLEM_ID = req.params.problemId;
     try {
-        // Converting Problem ID
-        const PROBLEM_ID = convertToId(PARAMS_PROBLEMID);
+        // Converting problem id from URI
+        const PROBLEM_ID = convertToId(PARAMS_PROBLEM_ID);
         // Get specific problems from database based on id
         let problems = await PRISMA.problem.findUniqueOrThrow({
             where: {
@@ -46,7 +46,7 @@ router.get("/:problemId", async (req, res) => {
         res.status(200).send(problems);
     }
     catch (err) {
-        res.status(404).send({ message: `Failed to fetch problems id=${PARAMS_PROBLEMID}`, error: err });
+        res.status(404).send({ message: `Failed to fetch problems id=${PARAMS_PROBLEM_ID}`, error: err });
     }
 });
 

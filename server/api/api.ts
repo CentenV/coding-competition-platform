@@ -7,7 +7,7 @@ import adminRouter from "./admin/admin";
 const router = Router();
 
 // Rest API mappings
-router.use("/problems", problemsEndpoint);
 router.use("/admin", adminRouter);
+router.use("/problems", problemsEndpoint);
 
 export default router;
