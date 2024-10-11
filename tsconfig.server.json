@@ -7,11 +7,12 @@
     "lib": [
       "ESNext"
     ],
+    "moduleResolution": "node",
     "isolatedModules": false,
     "noEmit": false,
     "paths": {
-      "@server/*": [
-        "./server/*"
+      "@/*": [
+        "./*"
       ]
     }
   },

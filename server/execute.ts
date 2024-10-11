@@ -1,11 +1,9 @@
 // EXECUTION OF CODE IN DOCKER CONTAINERS //
 // utility functions used to execute the user submitted code
-require('dotenv').config();
 import path from "path";
-const execSync = require("child_process").execSync;
-import { writeFileSync } from "fs";
-import { ExecuteError } from "@/app/types";
-import { getNamingTime } from "@/app/data/submission/timenaming";
+import { execSync } from "child_process";
+import { writeFile, writeFileSync } from "fs";
+// import { ExecuteError } from "@/app/types";
 
 // Enum used for classifying program languages submitted
 export enum Language {
@@ -34,7 +32,7 @@ export abstract class Execute {
 
         // Create and print out to code file
         this.codeFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${this.fileName}.py`);
-        // console.log("Code File: " + this.codeFilePath);
+        console.log("Code File: " + this.codeFilePath);
         writeFileSync(this.codeFilePath, code);
     }
 
@@ -60,7 +58,7 @@ export class PythonExecute extends Execute {
         }
         catch (error) {
             if (error != undefined) {
-                let errorMsgSplit: string[] = error.toString().split("\n");
+                const errorMsgSplit: string[] = error.toString().split("\n");
                 for (let i = 1; i < errorMsgSplit.length; i++) {
                     output += `${errorMsgSplit[i]}\n`;
                 }
@@ -76,6 +74,6 @@ export class PythonExecute extends Execute {
 }
 
 
-export async function runMultipleExecutes(tasks: Execute[]) {
+// export async function runMultipleExecutes(tasks: Execute[]) {
 
-}
+// }

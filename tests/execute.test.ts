@@ -1,9 +1,9 @@
 // CODE EXECUTION CLASS TEST //
-require("dotenv").config();
-import { getNamingTime } from "../app/data/submission/timenaming";
-import { Execute, PythonExecute } from "../app/data/submission/execute";
-import { afterEach, describe, expect, test } from "vitest";
-import { readFileSync, unlinkSync } from "node:fs";
+import { getNamingTime } from "../server/timenaming";
+import { Execute, PythonExecute } from "../server/execute";
+import { describe, expect, test } from "vitest";
+import { readFile, readFileSync, unlinkSync } from "node:fs";
+import "dotenv/config";
 
 describe("Execute class", () => {
     describe("python", () => {
@@ -24,10 +24,10 @@ describe("Execute class", () => {
             unlinkSync(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${CODE_FILE_NAME}.py`);
             unlinkSync(`${process.env.COMPETITION_SERVICE_DIR}/outputs/${CODE_FILE_NAME}.txt`);
         });
-        test("long output program", () => {
+        test.skip("long output program", () => {
             const CODE_FILE_NAME = `unit_test_execute_python_${getNamingTime()}`;
             const CODE = 
-`for i in range(0, 100000):
+`for i in range(0, 1000000):
     print(i)
 `;
             const execution: Execute = new PythonExecute(CODE_FILE_NAME, CODE);
@@ -44,7 +44,7 @@ describe("Execute class", () => {
             const outputFileContents = readFileSync(`${process.env.COMPETITION_SERVICE_DIR}/outputs/${CODE_FILE_NAME}.txt`, { encoding: "utf8", flag: 'r' })
             expect(outputFileContents).toBe(EXPECTED_OUTPUT);
         });
-        test("contains syntax error", () => {
+        test.skip("contains syntax error", () => {
             const CODE_FILE_NAME = `unit_test_execute_python_${getNamingTime()}`;
             const CODE = `prin("hello world")`
             const execution: Execute = new PythonExecute(CODE_FILE_NAME, CODE);

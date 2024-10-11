@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { background, primaryTextColor } from "./_components/globalstyle";
 import "./globals.css";
 import React from "react";
-import ReactQueryClient from "./data/react_query_provider";
+import ReactQueryClient from "./react_query_provider";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });

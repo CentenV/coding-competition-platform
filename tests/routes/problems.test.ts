@@ -1,7 +1,8 @@
 // PROBLEMS CRUD TEST //
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
-import "dotenv/config"
+import "dotenv/config";
 
 const SERVER_URL = `http://localhost:${process.env.PORT}/api`;
 
@@ -46,7 +47,7 @@ describe("Problems", () => {
     // flawed, maybe errorful or failing api tests
     describe("create - malformed payload", () => {
         const CURRENT_TIME = Date.now();
-        async function noProblemCreated(newExecCaseData: Object) {
+        async function noProblemCreated(newExecCaseData: object) {
             const initialListOfAllProblems = await axios.get(`${SERVER_URL}/problems`);
             const createNewProblem = await axios.post(`${SERVER_URL}/admin/problems`, newExecCaseData, { validateStatus: () => true });
             expect(createNewProblem.status).toBe(500);

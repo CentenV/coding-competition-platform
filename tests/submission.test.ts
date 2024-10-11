@@ -3,7 +3,7 @@
  */
 import { IProblem } from "@/app/types";
 import axios from "axios";
-import { beforeAll, test, describe, afterAll, expect } from "vitest";
+import { test } from "vitest";
 
 test("User submission", async () => {
     let problemId: number = -1;

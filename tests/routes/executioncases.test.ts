@@ -1,4 +1,5 @@
 // EXECUTION CASES CRUD TEST //
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import "dotenv/config";
@@ -44,7 +45,7 @@ describe("Execution Cases", () => {
     // flawed, maybe errorful or failing api tests
     describe("create - malformed payload", () => {
         const CURRENT_TIME = Date.now();
-        async function noExecCaseCreated(newExecCaseData: Object) {
+        async function noExecCaseCreated(newExecCaseData: object) {
             const initialListOfAllExecCases = await axios.get(`${SERVER_URL}/admin/executioncases`);
             const createNewExecCase = await axios.post(`${SERVER_URL}/admin/executioncases`, newExecCaseData, { validateStatus: () => true });
             expect(createNewExecCase.status).toBe(500);

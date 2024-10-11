@@ -15,7 +15,7 @@ const router = Router();
 router.get("/", async (req, res) => {
     try {
         // Get all problems from database
-        let problems = await PRISMA.problem.findMany({
+        const problems = await PRISMA.problem.findMany({
             orderBy: {
                 id: "asc"
             }
@@ -38,7 +38,7 @@ router.get("/:problemId", async (req, res) => {
         // Converting problem id from URI
         const PROBLEM_ID = convertToId(PARAMS_PROBLEM_ID);
         // Get specific problems from database based on id
-        let problems = await PRISMA.problem.findUniqueOrThrow({
+        const problems = await PRISMA.problem.findUniqueOrThrow({
             where: {
                 id: PROBLEM_ID
             }
