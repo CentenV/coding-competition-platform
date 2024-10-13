@@ -16,7 +16,7 @@ const router = Router();
 router.post("/", async (req, res) => {
     try {
         // Get POST request body
-        let newProblem: IProblem = await req.body;
+        const newProblem: IProblem = await req.body;
         // Push to database
         const problem = await PRISMA.problem.create({
             data: {
@@ -43,7 +43,7 @@ router.patch("/:problemId", async (req, res) => {
         // Specified Problem ID
         const problemId = convertToId(PARAMS_PROBLEM_ID);
         // Get PATCH request body
-        let newProblem: IProblem = await req.body;
+        const newProblem: IProblem = await req.body;
         // Push to database
         const updateProblem = await PRISMA.problem.update({
             where: {

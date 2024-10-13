@@ -44,7 +44,19 @@ describe("Problems", () => {
         });
     });
 
-    // flawed, maybe errorful or failing api tests
+    test("create - duplicate data", async () => {
+        const CURRENT_TIME = Date.now();
+        const NEW_PROBLEM = {
+            name: `Test Problem ${CURRENT_TIME}`,
+            description: `Description of Test Problem ${CURRENT_TIME}`,
+            points: 100
+        };
+
+        const createNewProblem_1 = await axios.post(`${SERVER_URL}/admin/problems`, NEW_PROBLEM);
+        const createNewProblem_2 = await axios.post(`${SERVER_URL}/admin/problems`, NEW_PROBLEM);
+        // to finish
+    });
+
     describe("create - malformed payload", () => {
         const CURRENT_TIME = Date.now();
         async function noProblemCreated(newExecCaseData: object) {

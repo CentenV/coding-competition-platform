@@ -1,9 +1,13 @@
 // EXECUTION OF CODE IN DOCKER CONTAINERS //
 // utility functions used to execute the user submitted code
 import path from "path";
-import { execSync } from "child_process";
-import { writeFile, writeFileSync } from "fs";
+import { exec } from "child_process";
+import { writeFileSync } from "fs";
+import util from "util";
+import { writeFile } from "fs/promises";
 // import { ExecuteError } from "@/app/types";
+
+const exec_cmd = util.promisify(exec);
 
 // Enum used for classifying program languages submitted
 export enum Language {
@@ -17,7 +21,8 @@ export abstract class Execute {
     protected fileName: string;
     private codeLanguage: Language;
     protected codeFilePath: string;
-    protected outputFilePath: string;
+    protected stdoutFilePath: string;
+    protected stderrorFilePath: string;
 
     /**
      * Initialize the Execute object 
@@ -27,16 +32,16 @@ export abstract class Execute {
      */
     constructor(fileName: string, codeLang: Language, code: string) {
         this.fileName = fileName;
-        this.outputFilePath = "";
+        this.stdoutFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/outputs/${this.fileName}.txt`);
+        this.stderrorFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/errors/${this.fileName}_error.txt`);
         this.codeLanguage = codeLang;
 
         // Create and print out to code file
         this.codeFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/rawcode/${this.fileName}.py`);
-        console.log("Code File: " + this.codeFilePath);
         writeFileSync(this.codeFilePath, code);
     }
 
-    public abstract run(): string;
+    public abstract run(): Promise<{ stdout: string, stderr: string }>;
 }
 
 
@@ -46,30 +51,22 @@ export class PythonExecute extends Execute {
         super(fileName, Language.Python, code);
     }
 
-    public run(): string {
-        // Output file path
-        this.outputFilePath = path.resolve(`${process.env.COMPETITION_SERVICE_DIR}/outputs/${this.fileName}.txt`);
-        // console.log("Output path: " + this.outputFilePath);
-
+    public async run(): Promise<{ stdout: string, stderr: string }> {
         // Execute docker run creating a container and executing code. Outputs code output result to file
-        let output: string = "";
-        try {
-            output = execSync(`docker run -v ${this.codeFilePath}:/exec/prog.py ccp-python`, { stdio: "pipe", encoding: "utf8" });
-        }
-        catch (error) {
-            if (error != undefined) {
-                const errorMsgSplit: string[] = error.toString().split("\n");
-                for (let i = 1; i < errorMsgSplit.length; i++) {
-                    output += `${errorMsgSplit[i]}\n`;
-                }
-            }
-        }
-
-        // Output code to file for later reference
-        writeFileSync(this.outputFilePath, output);
+        let cmd_return: { stdout: string, stderr: string } = { stdout: "", stderr: "" };
+        await exec_cmd(`docker run -v ${this.codeFilePath}:/exec/prog.py ccp-python`).then(async (value: { stdout: string, stderr: string }) => {
+            const { stdout, stderr } = value;
+            cmd_return = { stdout, stderr };
+        }).catch((reason) => {
+            cmd_return.stderr = reason.stderr;
+        });
+        
+        // Output results
+        await writeFile(this.stdoutFilePath, cmd_return.stdout).catch((reason) => { console.error(`Failed to output to ${this.stdoutFilePath}.txt: ${reason}`); });
+        if (cmd_return.stderr !== "") { await writeFile(this.stderrorFilePath, cmd_return.stderr, { encoding: "utf8" }).catch((reason) => { console.error(`Failed to output to ${this.stderrorFilePath}.txt: ${reason}`); }) }
         
         // Return output
-        return output;
+        return cmd_return;
     }
 }
 

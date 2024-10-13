@@ -2,4 +2,4 @@
 FROM python:latest
 WORKDIR /exec
 
-CMD [ "python3", "test.py" ]
+CMD [ "python3", "prog.py" ]
