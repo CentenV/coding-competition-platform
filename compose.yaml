@@ -1,0 +1,6 @@
+version: "3"
+services:
+  test:
+    image: nginx
+    ports:
+      - "8081:80"
