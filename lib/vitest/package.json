@@ -1,0 +1,18 @@
+{
+  "name": "vitest",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "scripts": {
+  },
+  "devDependencies": {
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "glob": "^11.0.3",
+    "nyc": "^17.1.0",
+    "vitest": "^3.2.4"
+  }
+}
