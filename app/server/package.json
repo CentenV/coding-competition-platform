@@ -9,6 +9,7 @@
   "scripts": {
     "build": "swc src --out-dir build",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"tsx\" ./src/server.ts",
+    "lint": "eslint .",
     "start": "node ./build/src/server.js",
     "test": "vitest run"
   },
