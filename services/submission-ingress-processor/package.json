@@ -1,0 +1,9 @@
+{
+  "name": "submission-ingress-processor",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true
+}
