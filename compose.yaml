@@ -20,10 +20,9 @@ services:
       - postgres_password
   kafka:
     image: "bitnami/kafka:latest"
-    hostname: broker
     container_name: codecompplat-kafka
     ports:
-      - "15505:9094"
+      - 9094:9094
     environment:
       - KAFKA_CFG_NODE_ID=0
       - KAFKA_CFG_CONTROLLER_BROKER_ID=0
@@ -33,10 +32,6 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_HEAP_OPTS=-Xms2G
-      - KAFKA_HEAP_OPTS=-Xmx4G
-    # volumes:
-    #   - ./.codecompplat/kafka/:/bitnami/kafka
 
 secrets:
   postgres_password:
