@@ -1,3 +1,4 @@
+.codecompplat/
 node_modules/
 *.turbo
 build/
