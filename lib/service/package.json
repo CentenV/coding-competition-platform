@@ -1,0 +1,16 @@
+{
+  "name": "service",
+  "version": "0.0.1",
+  "description": "Outlines the abstract service functionality that every service uses",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "scripts": {
+    "build": "swc src --out-dir build"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.12.7"
+  }
+}

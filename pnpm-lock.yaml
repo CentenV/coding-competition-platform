@@ -85,6 +85,15 @@ importers:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.30.0)(typescript@5.8.3)
 
+  lib/service:
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.7.7
+        version: 0.7.7(@swc/core@1.12.7)
+      '@swc/core':
+        specifier: ^1.12.7
+        version: 1.12.7
+
   lib/vitest:
     devDependencies:
       '@vitest/coverage-istanbul':
