@@ -135,6 +135,12 @@ importers:
 
   services/execution-delegator:
     devDependencies:
+      '@codecompplat/config-eslint':
+        specifier: workspace:*
+        version: link:../../lib/config-eslint
+      '@codecompplat/config-vitest':
+        specifier: workspace:*
+        version: link:../../lib/config-vitest
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)
