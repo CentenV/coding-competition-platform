@@ -3,4 +3,7 @@ node_modules/
 *.turbo
 build/
 .DS_Store
+
+# Unit testing
 coverage/
+coverage.json
