@@ -6,6 +6,9 @@
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
   "private": true,
+  "scripts": {
+    "lint": "eslint"
+  },
   "exports": {
     "./node-default": "./node-default.js"
   },
