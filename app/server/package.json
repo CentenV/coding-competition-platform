@@ -19,11 +19,13 @@
   },
   "devDependencies": {
     "@codecompplat/config-eslint": "workspace:*",
+    "@codecompplat/config-vitest": "workspace:*",
     "@eslint/js": "^9.30.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.12.7",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.7",
+    "@vitest/coverage-istanbul": "^3.0.7",
     "eslint": "^9.30.0",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",

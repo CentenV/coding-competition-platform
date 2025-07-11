@@ -5,5 +5,12 @@
   "author": "CentenV",
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "vitest": "^3.2.4"
+  }
 }

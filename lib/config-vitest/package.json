@@ -1,0 +1,27 @@
+{
+  "name": "@codecompplat/config-vitest",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "swc src --out-dir build/",
+    "aggregate-coverage": "node ./build/src/aggregate-coverage-reports.js",
+    "coverage": "open coverage/report/index.html"
+  },
+  "exports": {
+    "./backend": "./build/src/backend.js"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.12.7",
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "glob": "^11.0.3",
+    "nyc": "^17.1.0",
+    "vitest": "^3.2.4"
+  }
+}
