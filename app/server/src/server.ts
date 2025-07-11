@@ -1,7 +1,6 @@
 // Coding Competition Platform - Rest API Server //
 import "dotenv/config";
 import express from "express";
-
 // Application port
 const PORT = parseInt(process.env.SERVER_PORT || "3001", 10);
 // Application mode
