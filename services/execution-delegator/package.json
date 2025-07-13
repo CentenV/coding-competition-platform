@@ -9,8 +9,6 @@
   "scripts": {},
   "devDependencies": {
     "@codecompplat/config-eslint": "workspace:*",
-    "@codecompplat/config-vitest": "workspace:*",
-    "@vitest/coverage-istanbul": "^3.2.4",
-    "vitest": "^3.2.4"
+    "@codecompplat/config-vitest": "workspace:*"
   }
 }
