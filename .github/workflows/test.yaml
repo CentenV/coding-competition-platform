@@ -1,0 +1,17 @@
+name: Run-Tests
+
+on: [push]
+
+jobs:
+  Run-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      # - run: echo "😀 User: ${{ github.actor }}"
+      - name: Git Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/actions-setup@v4.1.0
+      - name: Install dependencies
+        run: pnpm install --force
+      - name: Run tests
+        run: pnpm run test
