@@ -11,12 +11,13 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "start": "turbo run start",
-    "test": "turbo run test",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "vitest run",
+    "test:coverage": "vitest --ui --coverage",
     "test:watch": "vitest watch"
   },
   "devDependencies": {
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "turbo": "^2.5.4",
     "vitest": "^3.2.4"
   }

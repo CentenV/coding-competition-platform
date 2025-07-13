@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@vitest/coverage-istanbul':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4)
       turbo:
         specifier: ^2.5.4
         version: 2.5.4
@@ -114,9 +120,6 @@ importers:
 
   lib/config-vitest:
     devDependencies:
-      '@codecompplat/config-vitest':
-        specifier: workspace:*
-        version: 'link:'
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)

@@ -6,10 +6,7 @@
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
   "private": true,
-  "scripts": {
-    "test": "vitest run",
-    "coverage": "vitest run --coverage"
-  },
+  "scripts": {},
   "devDependencies": {
     "@codecompplat/config-eslint": "workspace:*",
     "@codecompplat/config-vitest": "workspace:*",

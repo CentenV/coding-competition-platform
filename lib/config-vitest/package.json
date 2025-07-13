@@ -12,7 +12,6 @@
     "./backend": "./backend.js"
   },
   "devDependencies": {
-    "@codecompplat/config-vitest": "workspace:*",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "glob": "^11.0.3",

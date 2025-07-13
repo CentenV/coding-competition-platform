@@ -6,5 +6,11 @@ export default defineConfig({
       "app/*/vitest.config.ts",
       "services/*/vitest.config.ts"
     ],
+    coverage: {
+      exclude: ["**/*.js"],
+      provider: "istanbul",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "./.coverage"
+    }
   }
 })
