@@ -10,9 +10,15 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "start": "turbo run start"
+    "start": "turbo run start",
+    "test": "vitest run",
+    "test:coverage": "vitest --ui --coverage",
+    "test:watch": "vitest watch"
   },
   "devDependencies": {
-    "turbo": "^2.5.4"
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "turbo": "^2.5.4",
+    "vitest": "^3.2.4"
   }
 }
