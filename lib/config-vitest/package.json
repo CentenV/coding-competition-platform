@@ -7,17 +7,12 @@
   "packageManager": "pnpm@10.12.4",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "swc src --out-dir build/",
-    "aggregate-coverage": "node ./build/src/aggregate-coverage-reports.js",
-    "coverage": "open coverage/report/index.html"
-  },
+  "scripts": {},
   "exports": {
-    "./backend": "./build/src/backend.js"
+    "./backend": "./backend.js"
   },
   "devDependencies": {
-    "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.12.7",
+    "@codecompplat/config-vitest": "workspace:*",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "glob": "^11.0.3",

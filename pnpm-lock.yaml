@@ -11,6 +11,9 @@ importers:
       turbo:
         specifier: ^2.5.4
         version: 2.5.4
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
 
   app/server:
     dependencies:
@@ -111,12 +114,9 @@ importers:
 
   lib/config-vitest:
     devDependencies:
-      '@swc/cli':
-        specifier: ^0.7.7
-        version: 0.7.7(@swc/core@1.12.7)
-      '@swc/core':
-        specifier: ^1.12.7
-        version: 1.12.7
+      '@codecompplat/config-vitest':
+        specifier: workspace:*
+        version: 'link:'
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)

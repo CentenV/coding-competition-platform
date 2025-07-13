@@ -19,8 +19,10 @@
     },
     "test": {
       "dependsOn": ["@codecompplat/config-vitest#build"],
-      "outputs": ["coverage.json"],
       "cache": false
+    },
+    "test:coverage": {
+      "dependsOn": ["^test"]
     }
   }
 }
