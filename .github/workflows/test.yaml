@@ -10,7 +10,7 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
-        uses: pnpm/actions-setup@v4.1.0
+        uses: pnpm/action-setup@v4.1.0
       - name: Install dependencies
         run: pnpm install --force
       - name: Run tests
