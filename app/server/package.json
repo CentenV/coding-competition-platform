@@ -10,8 +10,7 @@
     "build": "swc src --out-dir build",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"tsx\" ./src/server.ts",
     "lint": "eslint .",
-    "start": "node ./build/src/server.js",
-    "test": "vitest run"
+    "start": "node ./build/src/server.js"
   },
   "dependencies": {
     "dotenv": "^17.0.0",
@@ -19,6 +18,7 @@
   },
   "devDependencies": {
     "@codecompplat/config-eslint": "workspace:*",
+    "@codecompplat/config-vitest": "workspace:*",
     "@eslint/js": "^9.30.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.12.7",
@@ -31,7 +31,6 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0",
-    "vitest": "^3.2.4"
+    "typescript-eslint": "^8.35.0"
   }
 }

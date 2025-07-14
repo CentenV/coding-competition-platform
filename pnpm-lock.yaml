@@ -8,9 +8,18 @@ importers:
 
   .:
     devDependencies:
+      '@vitest/coverage-istanbul':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4)
+      '@vitest/ui':
+        specifier: ^3.2.4
+        version: 3.2.4(vitest@3.2.4)
       turbo:
         specifier: ^2.5.4
         version: 2.5.4
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
 
   app/server:
     dependencies:
@@ -24,6 +33,9 @@ importers:
       '@codecompplat/config-eslint':
         specifier: workspace:*
         version: link:../../lib/config-eslint
+      '@codecompplat/config-vitest':
+        specifier: workspace:*
+        version: link:../../lib/config-vitest
       '@eslint/js':
         specifier: ^9.30.0
         version: 9.30.0
@@ -63,9 +75,6 @@ importers:
       typescript-eslint:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.30.0)(typescript@5.8.3)
-      vitest:
-        specifier: ^3.2.4
-        version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
 
   lib/config-eslint:
     devDependencies:
@@ -103,16 +112,7 @@ importers:
         specifier: ^8.35.0
         version: 8.35.0(eslint@9.30.0)(typescript@5.8.3)
 
-  lib/service:
-    devDependencies:
-      '@swc/cli':
-        specifier: ^0.7.7
-        version: 0.7.7(@swc/core@1.12.7)
-      '@swc/core':
-        specifier: ^1.12.7
-        version: 1.12.7
-
-  lib/vitest:
+  lib/config-vitest:
     devDependencies:
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
@@ -130,7 +130,14 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
 
-  services/execution-delegator: {}
+  services/execution-delegator:
+    devDependencies:
+      '@codecompplat/config-eslint':
+        specifier: workspace:*
+        version: link:../../lib/config-eslint
+      '@codecompplat/config-vitest':
+        specifier: workspace:*
+        version: link:../../lib/config-vitest
 
   services/grader: {}
 

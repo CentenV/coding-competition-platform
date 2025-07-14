@@ -5,5 +5,10 @@
   "author": "CentenV",
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
-  "private": true
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "@codecompplat/config-eslint": "workspace:*",
+    "@codecompplat/config-vitest": "workspace:*"
+  }
 }
