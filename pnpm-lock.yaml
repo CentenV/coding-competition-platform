@@ -130,6 +130,15 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
 
+  lib/service:
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.7.7
+        version: 0.7.7(@swc/core@1.12.7)
+      '@swc/core':
+        specifier: ^1.12.7
+        version: 1.12.7
+
   services/execution-delegator:
     devDependencies:
       '@codecompplat/config-eslint':
