@@ -9,13 +9,14 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "biome lint .",
     "start": "turbo run start",
     "test": "vitest run",
     "test:coverage": "vitest --ui --coverage",
     "test:watch": "vitest watch"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.1",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "turbo": "^2.5.4",
