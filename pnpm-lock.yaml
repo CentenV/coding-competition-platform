@@ -132,12 +132,21 @@ importers:
 
   lib/service:
     devDependencies:
+      '@codecompplat/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@codecompplat/config-vitest':
+        specifier: workspace:*
+        version: link:../config-vitest
       '@swc/cli':
         specifier: ^0.7.7
         version: 0.7.7(@swc/core@1.12.7)
       '@swc/core':
         specifier: ^1.12.7
         version: 1.12.7
+      '@types/node':
+        specifier: ^24.0.7
+        version: 24.0.7
 
   services/execution-delegator:
     devDependencies:
