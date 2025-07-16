@@ -17,7 +17,6 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "@codecompplat/config-eslint": "workspace:*",
     "@codecompplat/config-vitest": "workspace:*",
     "@eslint/js": "^9.30.0",
     "@swc/cli": "^0.7.7",
