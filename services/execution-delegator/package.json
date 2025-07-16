@@ -8,7 +8,6 @@
   "private": true,
   "scripts": {},
   "devDependencies": {
-    "@codecompplat/config-eslint": "workspace:*",
     "@codecompplat/config-vitest": "workspace:*"
   }
 }
