@@ -24,7 +24,82 @@
       "nursery": "info",
       "performance": "warn",
       "security": "error",
-      "style": "error",
+      "style": {
+        "useConsistentMemberAccessibility": {
+          "level": "off",
+          "options": {
+            "accessibility": "explicit"
+          }
+        },
+        "noCommonJs": "error",
+        "noDefaultExport": "error",
+        "useTemplate": "error",
+        "noExportedImports": "error",
+        "noParameterAssign": "error",
+        "noProcessEnv": "error",
+        "noYodaExpression": "error",
+        "useBlockStatements": "error",
+        "useCollapsedElseIf": "error",
+        "useCollapsedIf": "error",
+        "useConst": "error",
+        "useFilenamingConvention": {
+          "level": "warn",
+          "options": {
+            "requireAscii": true,
+            "filenameCases": ["kebab-case"]
+          }
+        },
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "requireAscii": true,
+            "conventions": [
+              {
+                "selector": {
+                  "kind": "variable",
+                  "scope": "any"
+                },
+                "formats": ["camelCase"]
+              },
+              {
+                "selector": {
+                  "kind": "function",
+                  "scope": "any"
+                },
+                "formats": ["camelCase"]
+              },
+              {
+                "selector": {
+                  "kind": "class",
+                  "scope": "any"
+                },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "enum",
+                  "scope": "any"
+                },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "interface",
+                  "scope": "any"
+                },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind":"const",
+                  "scope": "any"
+                },
+                "formats": ["CONSTANT_CASE"]
+              }
+            ]
+          }
+        }
+      },
       "suspicious": "error"
 		}
 	},
