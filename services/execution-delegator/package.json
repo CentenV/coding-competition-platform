@@ -6,8 +6,14 @@
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
   "private": true,
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "build": "swc src -d build",
+    "dev": "swc src -d build && node build/src/looptest.js"
+  },
   "devDependencies": {
-    "@codecompplat/config-vitest": "workspace:*"
+    "@codecompplat/config-logger": "workspace:*",
+    "@codecompplat/config-vitest": "workspace:*",
+    "ts-node": "^10.9.2"
   }
 }

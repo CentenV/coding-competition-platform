@@ -11,6 +11,12 @@ importers:
       '@biomejs/biome':
         specifier: 2.1.1
         version: 2.1.1
+      '@swc/cli':
+        specifier: ^0.7.7
+        version: 0.7.7(@swc/core@1.12.7)
+      '@swc/core':
+        specifier: ^1.12.7
+        version: 1.12.7
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)
@@ -109,9 +115,15 @@ importers:
 
   services/execution-delegator:
     devDependencies:
+      '@codecompplat/config-logger':
+        specifier: workspace:*
+        version: link:../../lib/config-logger
       '@codecompplat/config-vitest':
         specifier: workspace:*
         version: link:../../lib/config-vitest
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.12.7)(@types/node@24.0.7)(typescript@5.8.3)
 
   services/grader: {}
 
