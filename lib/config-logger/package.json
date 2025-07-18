@@ -1,0 +1,23 @@
+{
+  "name": "@codecompplat/config-logger",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "swc ./logger.ts --out-file logger.js"
+  },
+  "exports": {
+    ".": "./logger.js"
+  },
+  "dependencies": {
+    "pino": "^9.7.0"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.12.7"
+  }
+}
