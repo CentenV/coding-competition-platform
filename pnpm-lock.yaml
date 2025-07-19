@@ -94,9 +94,9 @@ importers:
 
   lib/service:
     devDependencies:
-      '@codecompplat/config-eslint':
+      '@codecompplat/config-logger':
         specifier: workspace:*
-        version: link:../config-eslint
+        version: link:../config-logger
       '@codecompplat/config-vitest':
         specifier: workspace:*
         version: link:../config-vitest

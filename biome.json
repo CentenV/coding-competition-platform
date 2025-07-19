@@ -22,7 +22,6 @@
         "noUndeclaredDependencies": "off"
       },
       "complexity": "error",
-      "nursery": "info",
       "performance": "warn",
       "security": "error",
       "style": {
@@ -99,7 +98,8 @@
               }
             ]
           }
-        }
+        },
+        "useNodejsImportProtocol": "on"
       },
       "suspicious": "error"
 		}
