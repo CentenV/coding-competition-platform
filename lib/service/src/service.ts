@@ -1,6 +1,8 @@
 // Core Service Abstract //
 // Outlines the base behavior that is shared amongst all other services
 
+import logger from "pino";
+
 export abstract class CodeCompPlatService {
   private name: string;
 
@@ -10,6 +12,7 @@ export abstract class CodeCompPlatService {
    * */
   constructor(name: string) {
     this.name = name;
+    logger.info("")
   }
 
   /*
