@@ -8,6 +8,7 @@ export abstract class CodeCompPlatService {
 
   /*
    * Creates a new service
+   *
    * @param {string} service name
    * */
   constructor(name: string) {
@@ -15,7 +16,7 @@ export abstract class CodeCompPlatService {
   }
 
   /*
-   * Start the service. Invokes this.cycle() infinitely
+   * Start service. Invokes this.cycle() infinitely
    * */
   public start(): void {
     // Register signals
@@ -30,12 +31,24 @@ export abstract class CodeCompPlatService {
     while (true) { this.cycle() }
   }
 
+  /*
+   * Shutdown service
+   * */
   public shutdown(): void {
     logger.info(`${this.name} service is shutting down...`)
+    process.exit(0);
   }
 
+  /*
+   * Definition of one operation to be infinitely invoked by this.start()
+   * */
   public abstract cycle(): void;
 
+  /*
+   * Process signal handler for defining behavior after a signal is received
+   *
+   * @param {string} signalName - Name of the system signal (i.e. SIGINT, SIGQUIT, etc.)
+   * */
   private handler(signalName: string) {
     logger.info(`Received ${signalName}`)
     this.shutdown()
