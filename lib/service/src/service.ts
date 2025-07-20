@@ -1,5 +1,7 @@
-// Core Service Abstract //
-// Outlines the base behavior that is shared amongst all other services
+/*
+ * @file Core Service Abstract Class
+ * @description Outlines the base behavior that is shared amongst all other services
+ * */
 import process from 'node:process';
 import { logger } from "@codecompplat/config-logger"
 
