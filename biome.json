@@ -56,6 +56,13 @@
             "conventions": [
               {
                 "selector": {
+                  "kind":"const",
+                  "scope": "any"
+                },
+                "formats": ["CONSTANT_CASE"]
+              },
+              {
+                "selector": {
                   "kind": "variable",
                   "scope": "any"
                 },
@@ -88,13 +95,6 @@
                   "scope": "any"
                 },
                 "formats": ["PascalCase"]
-              },
-              {
-                "selector": {
-                  "kind":"const",
-                  "scope": "any"
-                },
-                "formats": ["CONSTANT_CASE"]
               }
             ]
           }

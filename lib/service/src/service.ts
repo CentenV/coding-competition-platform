@@ -20,24 +20,24 @@ export abstract class CodeCompPlatService {
   public start(): void {
     // Register signals
     const EXIT_SIGNALS = ["SIGINT", "SIGQUIT", "SIGTERM"]
-    for (const sig of EXIT_SIGNALS) {
-      process.on(sig, () => {
-        this.handler(sig);
+    for (const SIG of EXIT_SIGNALS) {
+      process.on(SIG, () => {
+        this.handler(SIG);
       })
     }
     // Invoke cycle method
-    logger.info(`{this.name} service is starting...`)
+    logger.info(`${this.name} service is starting...`)
     while (true) { this.cycle() }
   }
 
   public shutdown(): void {
-    logger.info(`{this.name} service is shutting down...`)
+    logger.info(`${this.name} service is shutting down...`)
   }
 
   public abstract cycle(): void;
 
   private handler(signalName: string) {
-    logger.info(`Received {signalName}`)
+    logger.info(`Received ${signalName}`)
     this.shutdown()
   }
 }

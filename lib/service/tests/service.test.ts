@@ -8,8 +8,9 @@
  * 
 */
 
-import { assert, describe, expect, test } from "vitest"
+import { describe, expect, test, vi } from "vitest"
 import { CodeCompPlatService } from "../src/service";
+import { logger } from "@codecompplat/config-logger"
 
 class SampleService extends CodeCompPlatService {
   constructor() {
@@ -25,5 +26,15 @@ describe("CodeCompPlatService", () => {
   test("constructor", () => {
     const sampleService = new SampleService();
     expect(sampleService.name).toBe("Sample")
-  })
+  });
+
+  test("shutdown", () => {
+    const x = vi.spyOn(logger, "info")
+
+    const sampleService = new SampleService().shutdown();
+
+    expect(x).toHaveBeenCalledOnce();
+  });
+
+  // TODO: Add more tests
 });
