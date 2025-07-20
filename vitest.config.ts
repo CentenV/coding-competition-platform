@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     projects: [
       "app/*/vitest.config.ts",
+      "lib/*/vitest.config.ts",
       "services/*/vitest.config.ts"
     ],
     coverage: {

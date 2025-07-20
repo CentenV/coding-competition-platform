@@ -11,13 +11,19 @@
       "cache": false
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^build", "^lint"]
     },
     "start": {
       "dependsOn": ["build"]
     },
-    "//#test": {},
-    "//#test:coverage": {},
-    "//#test:watch": {}
+    "//#test": {
+      "cache": false
+    },
+    "//#test:coverage": {
+      "cache": false
+    },
+    "//#test:watch": {
+      "cache": false
+    }
   }
 }
