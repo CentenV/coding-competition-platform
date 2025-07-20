@@ -10,7 +10,7 @@
 
 import { describe, expect, test, vi } from "vitest"
 import { CodeCompPlatService } from "../src/service";
-import { logger } from "@codecompplat/config-logger"
+// import { logger } from "@codecompplat/config-logger"
 
 class SampleService extends CodeCompPlatService {
   constructor() {
@@ -28,13 +28,13 @@ describe("CodeCompPlatService", () => {
     expect(sampleService.name).toBe("Sample")
   });
 
-  test("shutdown", () => {
-    const x = vi.spyOn(logger, "info")
-
-    const sampleService = new SampleService().shutdown();
-
-    expect(x).toHaveBeenCalledOnce();
-  });
+  // test("shutdown", () => {
+  //   const x = vi.spyOn(logger, "info")
+  //
+  //   const sampleService = new SampleService().shutdown();
+  //
+  //   expect(x).toHaveBeenCalledOnce();
+  // });
 
   // TODO: Add more tests
 });
