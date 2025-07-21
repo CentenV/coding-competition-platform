@@ -9,7 +9,7 @@
 */
 
 import { describe, expect, test, vi } from "vitest"
-import { CodeCompPlatService } from "../src/service";
+import { CodeCompPlatService } from "../src/service.ts";
 // import { logger } from "@codecompplat/config-logger"
 
 class SampleService extends CodeCompPlatService {

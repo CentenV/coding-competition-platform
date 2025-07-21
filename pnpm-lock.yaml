@@ -26,6 +26,9 @@ importers:
       turbo:
         specifier: ^2.5.4
         version: 2.5.4
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
@@ -66,13 +69,8 @@ importers:
       pino:
         specifier: ^9.7.0
         version: 9.7.0
-    devDependencies:
-      '@swc/cli':
-        specifier: ^0.7.7
-        version: 0.7.7(@swc/core@1.12.7)
-      '@swc/core':
-        specifier: ^1.12.7
-        version: 1.12.7
+
+  lib/config-typescript: {}
 
   lib/config-vitest:
     devDependencies:
@@ -97,6 +95,9 @@ importers:
       '@codecompplat/config-logger':
         specifier: workspace:*
         version: link:../config-logger
+      '@codecompplat/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
       '@codecompplat/config-vitest':
         specifier: workspace:*
         version: link:../config-vitest
