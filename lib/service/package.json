@@ -1,5 +1,5 @@
 {
-  "name": "service",
+  "name": "@codecompplat/service",
   "version": "0.0.1",
   "description": "Outlines the abstract service functionality that every service uses",
   "author": "CentenV",
@@ -16,8 +16,6 @@
     "@codecompplat/config-logger": "workspace:*",
     "@codecompplat/config-typescript": "workspace:*",
     "@codecompplat/config-vitest": "workspace:*",
-    "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.12.7",
     "@types/node": "^24.0.7"
   }
 }
