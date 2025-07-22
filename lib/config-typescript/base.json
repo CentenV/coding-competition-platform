@@ -5,7 +5,7 @@
     "module": "nodenext",
     "moduleDetection": "force",
     "moduleResolution": "nodenext",
-    "incremental": true,
+    "incremental": false,
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
