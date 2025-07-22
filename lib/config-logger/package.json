@@ -15,5 +15,8 @@
   },
   "dependencies": {
     "pino": "^9.7.0"
+  },
+  "devDependencies": {
+    "@codecompplat/config-typescript": "workspace:*"
   }
 }

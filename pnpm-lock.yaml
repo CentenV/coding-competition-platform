@@ -69,6 +69,10 @@ importers:
       pino:
         specifier: ^9.7.0
         version: 9.7.0
+    devDependencies:
+      '@codecompplat/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
 
   lib/config-typescript: {}
 
