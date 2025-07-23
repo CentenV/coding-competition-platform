@@ -7,13 +7,9 @@
   "packageManager": "pnpm@10.12.4",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "swc src -d build",
-    "dev": "swc src -d build && node build/src/looptest.js"
-  },
+  "scripts": {},
   "devDependencies": {
     "@codecompplat/config-logger": "workspace:*",
-    "@codecompplat/config-vitest": "workspace:*",
     "ts-node": "^10.9.2"
   }
 }

@@ -3,10 +3,7 @@
   "extends": "@codecompplat/config-typescript/base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "build",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "outDir": "build"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

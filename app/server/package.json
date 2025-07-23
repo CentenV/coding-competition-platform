@@ -6,10 +6,9 @@
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "swc src -d build",
-    "dev": "swc src -d build && node build/src/server.js",
+    "build": "tsc",
+    "dev": "ts-node src/server.ts",
     "start": "node build/src/server.js"
   },
   "dependencies": {
@@ -17,7 +16,7 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "@codecompplat/config-vitest": "workspace:*",
+    "@codecompplat/config-typescript": "workspace:*",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.7",
     "globals": "^16.2.0",

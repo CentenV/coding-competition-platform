@@ -56,10 +56,10 @@
             "conventions": [
               {
                 "selector": {
-                  "kind":"const",
+                  "kind": "const",
                   "scope": "any"
                 },
-                "formats": ["CONSTANT_CASE"]
+                "formats": ["CONSTANT_CASE", "camelCase"]
               },
               {
                 "selector": {

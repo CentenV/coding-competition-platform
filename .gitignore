@@ -7,3 +7,6 @@ build/
 # Unit testing
 .coverage/
 coverage.json
+
+# Typescript
+tsconfig.tsbuildinfo

@@ -1,5 +1,5 @@
 {
-  "name": "service",
+  "name": "@codecompplat/service",
   "version": "0.0.1",
   "description": "Outlines the abstract service functionality that every service uses",
   "author": "CentenV",
@@ -8,15 +8,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "swc src --out-dir build"
+    "build": "tsc"
   },
   "exports": {
   },
   "devDependencies": {
     "@codecompplat/config-logger": "workspace:*",
-    "@codecompplat/config-vitest": "workspace:*",
-    "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.12.7",
+    "@codecompplat/config-typescript": "workspace:*",
     "@types/node": "^24.0.7"
   }
 }

@@ -8,16 +8,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "swc ./logger.ts --out-file logger.js"
+    "build": "tsc"
   },
   "exports": {
-    ".": "./logger.js"
+    ".": "./src/logger.ts"
   },
   "dependencies": {
     "pino": "^9.7.0"
   },
   "devDependencies": {
-    "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.12.7"
+    "@codecompplat/config-typescript": "workspace:*"
   }
 }

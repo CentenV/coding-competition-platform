@@ -1,3 +1,3 @@
-import { config as viteConfig } from "@codecompplat/config-vitest/backend";
+import { defineConfig } from "vitest/config";
 
-export default viteConfig;
+export default defineConfig({});
