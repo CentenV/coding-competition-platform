@@ -2,8 +2,8 @@
   "$schema": "https://www.schemastore.org/tsconfig.json",
   "extends": "@codecompplat/config-typescript/base.json",
   "compilerOptions": {
-    "outDir": "build",
     "rootDir": "src",
+    "outDir": "build",
     "paths": {
       "@/*": ["./src/*"]
     }
