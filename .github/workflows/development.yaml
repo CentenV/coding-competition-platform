@@ -3,7 +3,7 @@ name: Development
 on: [push]
 
 jobs:
-  Run-Unit-Tests:
+  Run-Linter:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
