@@ -7,15 +7,14 @@
   "packageManager": "pnpm@10.12.4",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc"
+  },
   "exports": {
-    "./backend": "./backend.js"
+    "./backend": "./backend.ts"
   },
   "devDependencies": {
-    "@vitest/coverage-istanbul": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
-    "glob": "^11.0.3",
-    "nyc": "^17.1.0",
+    "@codecompplat/config-typescript": "workspace:*",
     "vitest": "^3.2.4"
   }
 }
