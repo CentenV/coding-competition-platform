@@ -15,7 +15,6 @@
   "devDependencies": {
     "@codecompplat/config-logger": "workspace:*",
     "@codecompplat/config-typescript": "workspace:*",
-    "@codecompplat/config-vitest": "workspace:*",
     "@types/node": "^24.0.7"
   }
 }

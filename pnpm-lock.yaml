@@ -42,9 +42,6 @@ importers:
       '@codecompplat/config-typescript':
         specifier: workspace:*
         version: link:../../lib/config-typescript
-      '@codecompplat/config-vitest':
-        specifier: workspace:*
-        version: link:../../lib/config-vitest
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -76,15 +73,6 @@ importers:
 
   lib/config-typescript: {}
 
-  lib/config-vitest:
-    devDependencies:
-      '@codecompplat/config-typescript':
-        specifier: workspace:*
-        version: link:../config-typescript
-      vitest:
-        specifier: ^3.2.4
-        version: 3.2.4(@types/node@24.0.7)(@vitest/ui@3.2.4)(tsx@4.20.3)
-
   lib/service:
     devDependencies:
       '@codecompplat/config-logger':
@@ -93,9 +81,6 @@ importers:
       '@codecompplat/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
-      '@codecompplat/config-vitest':
-        specifier: workspace:*
-        version: link:../config-vitest
       '@types/node':
         specifier: ^24.0.7
         version: 24.0.7
@@ -105,9 +90,6 @@ importers:
       '@codecompplat/config-logger':
         specifier: workspace:*
         version: link:../../lib/config-logger
-      '@codecompplat/config-vitest':
-        specifier: workspace:*
-        version: link:../../lib/config-vitest
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.12.7)(@types/node@24.0.7)(typescript@5.8.3)
