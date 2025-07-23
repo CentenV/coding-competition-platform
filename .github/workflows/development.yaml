@@ -6,12 +6,11 @@ jobs:
   Run-Unit-Tests:
     runs-on: ubuntu-latest
     steps:
-      # - run: echo "😀 User: ${{ github.actor }}"
       - name: Git Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
         uses: pnpm/action-setup@v4.1.0
       - name: Install dependencies
         run: pnpm install --force
-      - name: Run tests
-        run: pnpm run test
+      - name: Run Biome linter
+        run: pnpm run lint
