@@ -3,7 +3,7 @@
  * @description Outlines the base behavior that is shared amongst all other services
  * */
 import process from 'node:process';
-import { logger } from "@codecompplat/config-logger"
+import { logger } from "@codecompplat/logger"
 
 export abstract class CodeCompPlatService {
   private readonly name: string;
