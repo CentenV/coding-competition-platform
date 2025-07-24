@@ -9,7 +9,6 @@
   "type": "module",
   "scripts": {},
   "devDependencies": {
-    "@codecompplat/config-logger": "workspace:*",
     "ts-node": "^10.9.2"
   }
 }

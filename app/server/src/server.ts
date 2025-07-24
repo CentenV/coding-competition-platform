@@ -1,5 +1,5 @@
 // Coding Competition Platform - Rest API Server //
-import "dotenv/config";
+import { logger } from "@codecompplat/logger"
 import express from "express"
 
 // Application port
@@ -11,8 +11,7 @@ const PORT = "3001";
 const server = express();
 
 server.listen(PORT, () => {
-    // console.log(`Started Coding-Competition-Platform Server - Listening on port ${PORT} as ${DEV ? "development" : process.env.NODE_ENV}`)
-    // console.log(`Started Coding-Competition-Platform Server - Listening on port ${PORT} as`)
+    logger.info(`Started Coding-Competition-Platform Server - Listening on port ${PORT}`)
 });
 
 server.get("/", (_req, res) => {

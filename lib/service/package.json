@@ -13,8 +13,8 @@
   "exports": {
   },
   "devDependencies": {
-    "@codecompplat/config-logger": "workspace:*",
     "@codecompplat/config-typescript": "workspace:*",
+    "@codecompplat/logger": "workspace:*",
     "@types/node": "^24.0.7"
   }
 }
