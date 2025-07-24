@@ -11,7 +11,6 @@ const PORT = "3001";
 const server = express();
 
 server.listen(PORT, () => {
-    // console.log(`Started Coding-Competition-Platform Server - Listening on port ${PORT} as ${DEV ? "development" : process.env.NODE_ENV}`)
     logger.info(`Started Coding-Competition-Platform Server - Listening on port ${PORT}`)
 });
 
