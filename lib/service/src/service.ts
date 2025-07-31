@@ -5,7 +5,7 @@
 import process from 'node:process';
 import { logger } from "@codecompplat/logger"
 
-export abstract class CodeCompPlatService {
+export abstract class Service {
   private readonly name: string;
 
   /*

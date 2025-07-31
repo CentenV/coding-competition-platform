@@ -5,5 +5,17 @@
   "author": "CentenV",
   "license": "GPL-3.0",
   "packageManager": "pnpm@10.12.4",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/main.ts"
+  },
+  "exports": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@codecompplat/config-typescript": "workspace:*",
+    "@codecompplat/logger": "workspace:*",
+    "@codecompplat/service": "workspace:*"
+  }
 }

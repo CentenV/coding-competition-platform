@@ -14,16 +14,16 @@
   },
   "dependencies": {
     "dotenv": "^17.0.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
     "@codecompplat/config-typescript": "workspace:*",
     "@codecompplat/logger": "workspace:*",
     "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.0.7",
     "globals": "^16.2.0",
-    "nodemon": "^3.1.10",
-    "prettier": "^3.6.2",
-    "typescript": "^5.8.3"
+    "prettier": "^3.6.2"
   }
 }
