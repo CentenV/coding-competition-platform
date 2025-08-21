@@ -1,0 +1,19 @@
+{
+  "name": "@codecompplat/ccp-error",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "exports": {
+    ".": "./src/error.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@codecompplat/config-typescript": "workspace:*"
+  }
+}
+

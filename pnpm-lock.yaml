@@ -64,6 +64,21 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
+  lib/ccp-error:
+    devDependencies:
+      '@codecompplat/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+
+  lib/config-env:
+    devDependencies:
+      '@codecompplat/ccp-error':
+        specifier: workspace:*
+        version: link:../ccp-error
+      '@codecompplat/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+
   lib/config-typescript: {}
 
   lib/logger:
