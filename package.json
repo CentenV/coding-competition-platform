@@ -7,21 +7,26 @@
   "packageManager": "pnpm@10.12.4",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo watch dev",
-    "lint": "biome lint .",
-    "start": "turbo run start",
-    "test": "vitest run",
-    "test:coverage": "vitest --ui --coverage",
-    "test:watch": "vitest watch"
+    "build": "dotenv -- turbo run build",
+    "dev": "dotenv -- turbo watch dev",
+    "lint": "dotenv -- biome lint .",
+    "start": "dotenv -- turbo run start",
+    "test": "dotenv -- vitest run",
+    "test:coverage": "dotenv -- vitest --ui --coverage",
+    "test:watch": "dotenv -- vitest watch"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
+    "@types/node": "^24.0.7",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "dotenv-cli": "^10.0.0",
     "tsx": "^4.20.3",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.0.0"
   }
 }
