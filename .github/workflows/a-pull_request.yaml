@@ -9,6 +9,6 @@ on:
 
 jobs:
   Run-Linter:
-    uses: ./.github/workflows/lint.yaml
+    uses: ./.github/workflows/linting.yaml
   Run-Unit-Tests:
     uses: ./.github/workflows/unit-testing.yaml
