@@ -1,16 +1,7 @@
-name: Development
+name: Development pipeline for running on each branches' push
 
 on: [push]
 
 jobs:
   Run-Linter:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git Checkout
-        uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4.1.0
-      - name: Install dependencies
-        run: pnpm install --force
-      - name: Run Biome linter
-        run: pnpm run lint
+    uses: ./.github/workflow/lint.yaml
