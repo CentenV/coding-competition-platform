@@ -1,0 +1,23 @@
+{
+  "name": "@codecompplat/database",
+  "version": "0.0.1",
+  "description": "",
+  "author": "CentenV",
+  "license": "GPL-3.0",
+  "packageManager": "pnpm@10.12.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "db:migrate": "prisma migrate"
+  },
+  "exports": {
+    ".": "./src/config.ts"
+  },
+  "devDependencies": {
+    "@codecompplat/config-env": "workspace:*",
+    "prisma": "^6.14.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.14.0"
+  }
+}

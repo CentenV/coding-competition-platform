@@ -1,0 +1,7 @@
+name: Development
+
+on: [push]
+
+jobs:
+  Run-Linter:
+    uses: ./.github/workflows/linting.yaml

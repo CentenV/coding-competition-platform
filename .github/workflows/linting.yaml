@@ -1,9 +1,10 @@
-name: Development
+name: Runs linter on codebase
 
-on: [push]
+on:
+  workflow_call:
 
 jobs:
-  Run-Linter:
+  linting:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
@@ -14,3 +15,4 @@ jobs:
         run: pnpm install --force
       - name: Run Biome linter
         run: pnpm run lint
+

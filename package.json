@@ -9,6 +9,7 @@
   "scripts": {
     "build": "dotenv -- turbo run build",
     "dev": "dotenv -- turbo watch dev",
+    "db:migrate": "dotenv -- turbo run db:migrate --ui stream",
     "lint": "dotenv -- biome lint .",
     "start": "dotenv -- turbo run start",
     "test": "dotenv -- vitest run",

@@ -10,3 +10,6 @@ coverage.json
 
 # Typescript
 tsconfig.tsbuildinfo
+
+# Environment/config files
+.env*
