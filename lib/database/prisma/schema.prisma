@@ -1,0 +1,76 @@
+// Platform Schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model competitor {
+  id                 Int                  @id(map: "pk_competitor") @unique(map: "unique_competitor_id") @default(autoincrement())
+  username           String               @unique(map: "unique_username") @db.VarChar(40)
+  full_name          String
+  team_id            Int?
+  team               team?                @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_team_teamid")
+  competitor_problem competitor_problem[]
+
+  @@index([team_id], map: "fki_competitor_team_teamid")
+}
+
+model competitor_problem {
+  competitor_id Int
+  problem_id    Int
+  competitor    competitor @relation(fields: [competitor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_problem_competitor_id")
+  problem       problem    @relation(fields: [problem_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_problem_problem_id")
+
+  @@id([problem_id, competitor_id], map: "pkey_competitor_problem")
+  @@index([competitor_id], map: "fki_competitor_problem_competitor_id")
+  @@index([problem_id], map: "fki_competitor_problem_problem_id")
+}
+
+model problem {
+  id                 Int                           @id(map: "pk_problem") @unique(map: "unique_problem_id") @default(autoincrement())
+  name               String
+  description        String?
+  points             Int
+  competitor_problem competitor_problem[]
+  execution_cases    problem_execution_case_xref[]
+}
+
+model problem_execution_case_xref {
+  id                Int            @id(map: "pk_problem_execution_case_xref") @unique(map: "unique_problem_execution_case_xref") @default(autoincrement())
+  problem_id        Int
+  execution_case_id Int
+  hidden            Boolean
+  reltype           case_type
+  execution_case    execution_case @relation(fields: [execution_case_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_problem_execution_case_xref_execusion_case")
+  problem           problem        @relation(fields: [problem_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_problem_execution_case_xref_problem_id")
+
+  @@unique([problem_id, execution_case_id, reltype], map: "unique_problem_id_execution_case_id")
+  @@index([execution_case_id], map: "fki_problem_execution_case_xref_execusion_case_id")
+  @@index([problem_id], map: "fki_problem_execution_case_xref_problem_id")
+}
+
+model execution_case {
+  id                          Int                           @id(map: "pk_execution_case") @unique(map: "unique_problem_run_case") @default(autoincrement())
+  input                       String
+  output                      String
+  problem_execution_case_xref problem_execution_case_xref[]
+}
+
+model team {
+  id                 Int          @id(map: "pk_team") @unique(map: "unique_team_id") @default(autoincrement())
+  name               String       @unique(map: "unique_team_name")
+  team_members       String[]     @db.VarChar(40)
+  points             BigInt
+  completed_problems Int[]
+  competitor         competitor[]
+}
+
+enum case_type {
+  RUN
+  ASSESS
+}
