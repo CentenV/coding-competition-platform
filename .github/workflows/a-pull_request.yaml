@@ -1,0 +1,14 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types:
+    - opened
+    - synchronize
+    - reopened
+
+jobs:
+  Run-Linter:
+    uses: ./.github/workflow/lint.yaml
+  Run-Unit-Tests:
+    uses: ./.github/workflow/unit-testing.yaml

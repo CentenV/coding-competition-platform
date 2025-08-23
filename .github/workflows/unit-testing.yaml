@@ -1,4 +1,4 @@
-name: Runs platform unit tests
+name: Runs unit tests on codebase
 
 on:
   workflow_call:
