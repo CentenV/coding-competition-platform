@@ -4,4 +4,4 @@ on: [push]
 
 jobs:
   Run-Linter:
-    uses: ./.github/workflow/linting.yaml
+    uses: ./.github/workflows/linting.yaml
