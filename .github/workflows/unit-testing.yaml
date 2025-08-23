@@ -1,14 +1,10 @@
-name: Pull Request
+name: Runs platform unit tests
 
 on:
-  pull_request:
-    types:
-    - opened
-    - synchronize
-    - reopened
+  workflow_call:
 
 jobs:
-  Run-Linter:
+  Run-Unit-Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
@@ -17,7 +13,5 @@ jobs:
         uses: pnpm/action-setup@v4.1.0
       - name: Install dependencies
         run: pnpm install --force
-      - name: Run Biome linter
-        run: pnpm run lint
-  Run-Unit-Tests:
-    uses: ./.github/workflow/unit-testing.yaml
+      - name: Run tests
+        run: pnpm run test
