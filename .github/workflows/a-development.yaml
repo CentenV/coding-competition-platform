@@ -1,4 +1,4 @@
-name: Development pipeline for running on each branches' push
+name: Development
 
 on: [push]
 
