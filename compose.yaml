@@ -1,15 +1,11 @@
 version: "3"
 services:
-  test:
-    image: nginx
-    ports:
-      - "8081:80"
   database:
     image: "postgres:17.5"
     hostname: database
     container_name: codecompplat-postgres
     ports:
-      - "15503:5432"
+      - 15503:5432
     environment:
       POSTGRES_USER: "postgres"
       # POSTGRES_PASSWORD: /run/secrets/postgres_password
