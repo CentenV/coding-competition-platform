@@ -8,11 +8,11 @@
  * 
 */
 
-import { describe, expect, test, vi } from "vitest"
-import { CodeCompPlatService } from "../src/service.ts";
+import { describe, expect, test } from "vitest"
+import { Service } from "../src/service.ts";
 // import { logger } from "@codecompplat/config-logger"
 
-class SampleService extends CodeCompPlatService {
+class SampleService extends Service {
   constructor() {
     super("Sample")
   }

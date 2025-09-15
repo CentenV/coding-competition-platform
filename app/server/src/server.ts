@@ -1,4 +1,8 @@
-// Coding Competition Platform - Rest API Server //
+/**
+ * @file Coding Competition Platform - Rest API Server
+ *
+ * */
+import 'dotenv/config'
 import { logger } from "@codecompplat/logger"
 import express from "express"
 import { apiRouter } from "./api/api.js";
@@ -11,16 +15,7 @@ const PORT = "3001";
 
 const server = express();
 
-
-server.get("/", (_req, res) => {
-    res.send("hello world");
-});
-
 server.use(apiRouter)
-server.use((req, _, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-})
 
 server.listen(PORT, () => {
   logger.info(`Started Coding-Competition-Platform Server - Listening on port ${PORT}`)

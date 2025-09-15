@@ -13,9 +13,17 @@
     "start": "node build/src/server.js"
   },
   "dependencies": {
+    "@codecompplat/config-env": "workspace:*",
+    "@codecompplat/database": "workspace:*",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@codecompplat/config-typescript": "workspace:*",
@@ -23,6 +31,10 @@
     "@types/express": "^5.0.3",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.0.7",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
+    "@types/uuid": "^10.0.0",
     "globals": "^16.2.0",
     "prettier": "^3.6.2"
   }

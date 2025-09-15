@@ -7,11 +7,13 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output = "../src/generated_client"
 }
 
 model competitor {
   id                 Int                  @id(map: "pk_competitor") @unique(map: "unique_competitor_id") @default(autoincrement())
   username           String               @unique(map: "unique_username") @db.VarChar(40)
+  password           String
   full_name          String
   team_id            Int?
   team               team?                @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_competitor_team_teamid")
